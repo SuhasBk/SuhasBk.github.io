@@ -1,0 +1,118 @@
+\ProvidesPackage{config/minimal-resume}
+
+% margin
+\usepackage[top=0.15in, bottom=0.0in, left=0.25in, right=0.25in]{geometry}
+
+% minimal custom packages
+\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\usepackage[babel=true]{microtype}
+\usepackage[fontsize=9.3pt]{scrextend}
+\usepackage{enumitem}
+
+\defaultfontfeatures{Ligatures=TeX}
+
+% font families
+% \newfontfamily{\montserratfont}[Path=fonts/,BoldFont=Times-New-Roman-Bold]{Times-New-Roman}
+% \newfontfamily{\crimsonfont}[Path=fonts/,ItalicFont=Times-New-Roman-Italic]{Times-New-Roman}
+
+% main font for the document
+\setmainfont[Path=fonts/, ItalicFont=Times-New-Roman-Italic]{Times-New-Roman}
+
+% font sizes
+\newcommand{\sizeone}{1.418em}
+\newcommand{\sizetwo}{1.118em}
+\newcommand{\sizethree}{1em}
+\newcommand{\sizefour}{0.618em}
+\newcommand{\sizefive}{0.382em}
+\newcommand{\sizesix}{0.236em}
+\newcommand{\customvspace}{0.2em}
+
+% line spaces
+\newcommand{\linespaceone}{1}
+
+\newenvironment{newitemize}
+  {\itemize[nolistsep,topsep=\sizefive,itemsep=\sizefive,labelsep=\sizefour,leftmargin=*]}
+  {\enditemize}
+
+\newcommand{\personal}[3]{
+  \begin{center}
+    % name
+    {
+      \fontsize{\sizeone}{\sizeone}\fontspec[Path = fonts/,LetterSpace=15]{Times-New-Roman}#1
+    }\\
+    % address
+    \vspace{\sizetwo}
+    {
+      \fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/,LetterSpace= 10]{Times-New-Roman}#2
+    }\\
+    % contact
+    \vspace{\sizethree}
+    {
+      \fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman}#3
+    }
+  \end{center}
+}
+
+\newcommand{\summary}[1]{
+  \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{Times-New-Roman-Bold} \textbf{Summary}}
+  \vspace{\sizefour}
+  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #1}
+  \vspace{\sizefive}
+}
+
+\newcommand{\chap}[2]{
+  \vspace{\sizefive}
+  \raggedright
+  {\hrule height 0.5pt}
+  \vspace{\sizefive}
+  \begin{addmargin}[\sizefive]{\sizefive}{
+  {
+  \fontspec[Path = fonts/,LetterSpace=10]{Times-New-Roman-Bold}
+  \textbf{#1}
+  }
+  \vspace{\sizefour}
+  {#2}
+  }
+  \end{addmargin}
+}
+
+\newcommand{\subchap}[3]{
+  \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{Times-New-Roman-Bold} #1} \hfill {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{Times-New-Roman} #2}
+  {#3}
+  \vspace{\sizefive}
+}
+
+\newcommand{\school}[4]{
+  % \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{Times-New-Roman-Bold} #1} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #2}
+
+  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #3}\hfill{\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman}#4}
+  \vspace{\sizefive}
+}
+
+\newcommand{\job}[5]{
+  \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{Times-New-Roman-Bold} #1} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #2}
+
+  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #3} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #4}
+  {#5}
+  \vspace{\sizefive}
+}
+
+\newcommand{\project}[4]{
+  \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{Times-New-Roman-Bold} #1} {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #2} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{Times-New-Roman} #3}
+  \\#4
+  \vspace{\sizefive}
+}
+
+\newcommand{\award}[4]{
+  % \vspace{\sizefive}
+  {\fontsize{\sizetwo}{\sizetwo}\fontspec[Path = fonts/]{CrimsonText-SemiBold} #1} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #2}
+
+  {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #3} \hfill {\fontsize{\sizethree}{\sizethree}\fontspec[Path = fonts/]{CrimsonText-Regular} #4}
+  \vspace{\sizefive}
+}
