@@ -1,0 +1,10 @@
+langchain==0.3.27
+langchain-core
+langchain-community
+langchain-text-splitters
+langchain-chroma
+langchain-google-genai
+google-genai
+pypdf
+python-dotenv
+chromadb

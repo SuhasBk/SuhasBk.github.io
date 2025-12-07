@@ -1,0 +1,208 @@
+\documentclass[10pt]{article}
+    \usepackage[english]{babel}
+    \input{config/minimal-resume-config}
+    \begin{document}
+    
+\begin{center}
+	% Personal
+	% -----------------------------------------------------
+	{\fontsize{\sizeone}{\sizeone}\fontspec[Path = fonts/]{Montserrat-Bold} Suhas Kowligi}
+        \\
+	\vspace{1mm}
+	{\fontsize{1.1em}{1.1em}\fontspec[Path = fonts/]{Times-New-Roman} suhasbk42@gmail.com || Frisco, TX}
+        % \\
+        % \vspace{1.8mm}
+        % {\fontsize{1.1em}{1.1em}\fontspec[Path = fonts/]{Times-New-Roman} https://www.linkedin.com/in/suhas-kowligi-b39a9415a}
+        \vspace{1mm}
+        \\
+        {\fontsize{1.1em}{1.1em}\fontspec[Path = fonts/]{Times-New-Roman} https://www.linkedin.com/in/suhas-kowligi-b39a9415a || https://github.com/SuhasBk || https://suhasbk.github.io/}
+\end{center}
+
+\chap{SUMMARY}{
+    \begin{newitemize}
+        \item Full Stack Developer and recent \textbf{MSCS graduate (GPA 3.9)} with 3+ years of progressive experience in architecting and deploying scalable enterprise solutions.
+        \item Proven ability to drive efficiency through \textbf{DevOps} practices, including automating deployments with \textbf{Terraform}, \textbf{Docker}, \textbf{Jenkins}, and managing services on \textbf{MS Azure} and \textbf{Kubernetes (AKS)}.
+        \item Expertise in modern backend development, specializing in \textbf{Java/Spring Boot}, Microservices architecture, and optimizing data retrieval using \textbf{PL/SQL} and \textbf{PostgreSQL}.
+        \item Recognized leader and problem-solver who achieved title promotions at previous roles and demonstrated technical versatility across Full Stack, Cloud Engineering, and \textbf{AI/RAG pipeline development} (as shown in projects).
+    \end{newitemize}
+}
+
+% Chapter: Work Experience
+% ------------------------
+\chap{EXPERIENCE}{
+
+    \job
+        {Toshiba Global Commerce Solutions}
+        {May 2024 - Present}
+        {Software Engineer I}
+        {Frisco, TX}
+        {
+        \begin{newitemize}
+            \item Built and maintained a cloud control plane using Azure Durable Functions and Terraform, automating multi-environment product deployments and increasing deployment frequency by 70\%.
+            \item Contributed to AKS HPA scaling and resolved OOMKills, improving memory utilization and system reliability across Spring Boot microservices.
+            \item Developed Terraform IaC and Jenkins CI/CD pipelines to streamline and standardize cloud/artifact deployments.
+            \item Created Docker-based health monitoring tools providing real-time service metrics, enabling proactive incident detection and reducing response times.
+        \end{newitemize}
+        }
+
+    \job
+        {Brillio}
+        {Sep 2020 - Aug 2023}
+        {\underline{\textbf{Senior Software Engineer} (Apr 2022 - Aug 2023)}}
+        {Bangalore, India}
+        {
+        % --- Promotion 2: Senior Software Engineer ---
+        \begin{newitemize}
+            \item \textbf{Led} a 4-member engineering team to \textbf{architect} and deploy high-performance RFDS \textbf{REST APIs} for a critical U.S. telecom client.
+            \item \textbf{Optimized} complex \textbf{PL/SQL} queries and introduced multithreading (ExecutorService, Callable, Future), \textbf{cutting API response times by 30\%}.
+            \item \textbf{Automated} key operational workflows using \textbf{BASH scripting} and CRON jobs, saving the engineering team \textbf{10+ engineer-hours per week}.
+            \item \textbf{Enhanced UI performance} through caching strategies and improved backend reliability via structured refactoring and \textbf{Hibernate} integration.
+            \item \emph{Promoted from Product Engineer for consistent technical excellence and demonstrated leadership within 1.5 years.}
+        \end{newitemize}
+        
+        % --- Promotion 1: Product Engineer ---
+        \underline{\textbf{Product Engineer} (Sep 2020 - Apr 2022)}
+        \begin{newitemize}
+            \item Contributed as a \textbf{Full Stack Java Developer} to a Cell Site Management project, working with \textbf{Spring Boot}, \textbf{Java EE}, \textbf{jQuery}, and \textbf{Oracle SQLDeveloper}.
+            \item Served as a member of a cross-functional production support team, optimizing API calls and performing root cause analysis to \textbf{reduce customer issues by 40\%} and increase system throughput.
+        \end{newitemize}
+        }
+    
+    \job
+	{National Institute of Technology}
+	{Jun 2019 - Aug 2019}
+	{Backend Engineer Intern}
+	{Surathkal, India}
+	{\begin{newitemize}
+            \item {Developed an IoT-based Navigation-as-a-Service (NaaS) proof of concept using Python's Flask and Java for Android, showcasing the potential for increased customer engagement through Bluetooth Low Energy (BLE) beacons in indoor navigation systems.}
+	\end{newitemize}}
+}
+
+% Chapter: Projects
+% ------------------------
+
+\chap{PROJECTS}{
+
+        \project
+        {ML-based Ensemble Network Security System}
+        {Academic Research Project}
+        {https://link.springer.com/chapter/10.1007/978-981-16-3342-3\_1}
+        {\begin{newitemize}
+            \item {Implemented shell and Python scripts with the help of iptables firewall to whitelist most frequent connections as a part of the Ensemble system. Involved in exploring various ML algorithms in Python such as Naive Bayes Classifier, K-NN Classifier, Logistic Regression and Decision Tree Classifier to detect malicious packets in incoming traffic. Authored and had a research paper published in the Springer Journal in November 2021.}
+	    \end{newitemize}}
+
+        \project
+            {Lord of the Rings (LOTR) Design Patterns}
+            {Personal Project}
+            {https://github.com/SuhasBk/LOTR---Design-Patterns}
+            {\begin{newitemize}
+                \item {Applied software design patterns such as Strategy, Adapter, Command, Decorator and Factory to implement object-oriented solutions for various problem scenarios. Demonstrated practical understanding of design patterns by structuring interactions between components in an LOTR-themed system, emphasizing code reusability, flexibility, and scalability.}
+        \end{newitemize}}
+
+        \project
+        {vGreeting Card}
+        {Personal Project}
+        {https://github.com/SuhasBk/vcard-microservices}
+        {\begin{newitemize}
+            \item {Built a full-stack microservice architecture based virtual greeting card application using Spring Boot and React UI front end library. Utilized Spring Cloud API Gateway for routing, Eureka discovery service, Giphy's GIF API and MongoDB's Atlas cloud database for centralized data storage.}
+	    \end{newitemize}}
+
+        \project
+        {RAG Pipeline for Document Q\&A}
+        {Personal Project}
+        {https://github.com/SuhasBk/doc\_kb\_RAG}
+        {\begin{newitemize}
+            \item {Engineered a localized Retrieval-Augmented Generation pipeline using the LangChain framework for domain-specific Q\&A over proprietary PDFs.
+            Optimized data flow by implementing recursive chunking to solve the LLM context window constraint and using nomic-embed-text - a Transformer embedding model.
+            Achieved grounded synthesis via ChromaDB context injection into the Phi-3 Mini Ollama LLM, demonstrating proficiency in managing low-resource deployment.}
+        \end{newitemize}}
+
+        \project
+        {ASL Recognition and Translation - CV}
+        {Course Project}
+        {}
+        {\begin{newitemize}
+            \item {Developed and deployed a deep learning model using Python and PyTorch for real-time ASL alphabet recognition, achieving over 96\% accuracy, and optimized the training pipeline with data augmentation and adaptive learning rates to outperform baseline models like AlexNet and ResNet34 in real-world conditions.}
+	    \end{newitemize}}
+
+        \project
+        {Walkie-Talkie}
+        {Personal Project}
+        {https://walkie-talkie.fly.dev/}
+        {\begin{newitemize}
+            \item Developed a browser-based voice chat app using Spring Boot WebSockets with binary streaming and Web Audio API/MediaRecorder for real-time audio capture and playback, with concurrent client session management.
+        \end{newitemize}}
+
+        \project
+        {ePapers}
+        {Personal Project}
+        {https://epapers.fly.dev}
+        {\begin{newitemize}
+            \item {Developed and deployed a Java Spring Boot web application for accessing publicly available PDFs from local newspapers. Applied Strategy design pattern for scalability, integrated MongoDB, OAuth, email services, Telegram Bot, and free subscriptions based on city preferences.}
+	    \end{newitemize}}
+
+        \project
+        {LibSeat}
+        {Personal Project}
+        {https://libseat.fly.dev}
+        {\begin{newitemize}
+            \item {Developed a Python script and a Flask web application to reserve study rooms in UTA Central Library. Students can choose available rooms and desired time slots conveniently. Reduces number of clicks and form submissions by 90\% when compared with current procedure through official website.}
+	    \end{newitemize}}
+ 
+}
+
+% Chapter: Skills
+% ------------------------
+
+\chap{SKILLS}{
+    {\begin{newitemize}
+        \item {\fontspec[Path = fonts/]{Times-New-Roman-Bold}\textbf{Programming Languages:}} Java, Python, JavaScript, SQL, C
+        \item {\fontspec[Path = fonts/]{Times-New-Roman-Bold}\textbf{Frameworks \& Libraries:}} Spring Boot, Hibernate, React, Flask, jQuery, Selenium, JUnit, REST, NumPy, Pandas, PyTorch, Tensorflow, LangChain
+        \item {\fontspec[Path = fonts/]{Times-New-Roman-Bold}\textbf{Databases:}} MongoDB, PostgreSQL, MySQL, SQL Server, Oracle PL/SQL
+        \item {\fontspec[Path = fonts/]{Times-New-Roman-Bold}\textbf{Tools \& Platforms:}} Git, Maven, Bash, Linux, Apache Kafka, WebSocket, SSE, JIRA, MS Azure products, Docker, Jenkins, Terraform (IaC), NGINX, JSON, YAML, Kubernetes, Nexus, SonarQube
+    \end{newitemize}
+    }
+}
+
+\chap {CERTIFICATIONS} {
+    {\begin{newitemize}
+        \item Microsoft Certified: Azure Fundamentals (AZ-900) and Scaled Agile Framework (SAFe 5) Practitioner
+    \end{newitemize}}
+}
+
+% Chapter: Education
+% ------------------
+\chap{EDUCATION}{
+
+	\school
+	{University of Texas at Arlington}
+	{2025}
+	{Master of Science, Computer Science, GPA: 3.9}
+	{Arlington, TX}
+        
+	\school
+	{Nitte Meenakshi Institute of Technology}
+	{2020}
+	{Bachelor of Engineering, Information Science, GPA: 3.68}
+	{Bangalore, India}
+}
+
+% Chapter: Awards
+% ------------------------
+
+% \chap{VOLUNTEERING}{
+
+%     \award
+%     {Christian Campus Center (Tri-C), Arlington, Texas}
+%     {Pantry Worker}
+%     {Managed student check-ins and inventory, enhancing interpersonal skills in the process.}
+%     {Jan 2024 - Present}
+    
+%     \award
+%     {Hacktoberfest 2023}
+%     {Open Source Contribution}
+%     {Contributed to a public Python repository by committing a script to merge multiple PDF files into a single file during Hacktoberfest-2023}
+%     {Oct 2023}
+% }
+\ 
+\end{document}
