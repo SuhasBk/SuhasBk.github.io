@@ -94,7 +94,7 @@ def generate_tailored_resume_content(vectorstore: Chroma, job_description: str):
         "as [RETRIEVED CONTEXT], and modify it to align with the [JOB DESCRIPTION]."
         "\n\n**CRITICAL INSTRUCTIONS:**"
         "\n1. **Preserve Structure:** You MUST NOT change the LaTeX preamble, document structure, or custom commands. The overall template is fixed."
-        "\n2. **Targeted Edits:** Rewrite the bullet points within the `\\job{{...}}` sections to highlight skills from the job description. Pick and choose appropriate `\\projects{{...}}` and `\\skills{{...}}` based on job description. Surgically add/remove skills from existing categories. Do NOT modify the categories themselves. Make sure ONLY TOP 3 relevant projects are selected based on job description keywords. Compress the project bullet points into one single bullet point which captures impact. Include/exclude relevant certifications only if required by job description"
+        "\n2. **Targeted Edits:** Rewrite the bullet points within the `\\job{{...}}` sections to highlight skills from the job description. Pick and choose appropriate `\\projects{{...}}` and `\\skills{{...}}` based on job description. Surgically add/remove skills from existing categories. Do NOT modify the categories themselves. Make sure ONLY TOP 2 relevant projects are selected based on job description keywords. Compress the project bullet points into one single bullet point which captures impact. Include/exclude relevant certifications only if required by job description"
         "\n3. **Full Document Output:** Your final output MUST be the complete, modified master latex. Do NOT change tags. Just fill in the resume parts. Do not wrap the contents in latex markdown tags!!!"
         "\n\n[JOB DESCRIPTION]: {query_job_description}"
         "\n\n[RETRIEVED CONTEXT]: {context}" \
@@ -151,36 +151,37 @@ def generate(job_description):
 
 if __name__ == "__main__":
     job_description = """
-    Job Description:
+    Key Responsibilities:
 
-Java Backend development (coding, OOPs concept, Junit Testing, Database etc)
-
-MUST Experience working with Java 8 Spring Cloud Hibernate Spring Boot
-
-MUST Experience with Microservices Rest services Soap development
-
-MUST Solid grasp of web and backend application development
-
-MUST Knowledge of Domain Driven Design concepts and microservices REST API design and implementation
-
-MUST Familiar with secure development best practices knowledge of Security principles Encryption Authentication Authorization etc
-
-MUST Knowledge of Java build tools and dependency management Gradle maven
-
-MUST Database experience at least 1 Postgres Oracle MySQL NoSQL databases MongoDB Cassandra Neo4J
+    Collaborate with leaders, architects, technical leads, and internal customers to understand and define project requirements.
+    Maintain and enhance enterprise services, applications, and platforms using domain-driven design and test-driven development.
+    Troubleshoot and resolve complex technical issues; identify and implement effective solutions.
+    Create detailed project specifications, requirements, and estimates.
+    Research and integrate new technologies to improve current processes, security, and performance.
+    Support the development and adherence to coding standards, best practices, and security guidelines.
+    Work closely with software architects and technical leads to ensure alignment with long-term enterprise goals.
 
 
-MUST Strong written and verbal skills:
+Minimum Requirements:
 
-Preferred Experience with Nodejs React Backbone or other client side MVC technologies is a plus
-
-Preferred Experience in continuous integration build tools Jenkins SonarQube JIRA Nexus Confluence GIT Bit Bucket Maven Gradle Run Deck is a plus
-
-Preferred Experience working with GCP or any other cloud platform
-
-Preferred Experience working with Agile methodology
+    Education: Bachelor's degree in Computer Science, Computer Engineering, Technology, Information Systems, Engineering, or a related technical field, or equivalent experience/training.
+    Experience: 1-5 years of experience in the Software Development Life Cycle (SDLC), with hands-on experience in designing, developing, and implementing large-scale applications in hosted production environments.
 
 
-Mandatory Skills : Hibernate, Java, Spring Cloud, Microservices, Spring, Spring Security, Spring Boot, Spring MVC, Spring Integration.
+Technical Skills:
+
+    Java - (Minimum Version 8)
+    Experience Spring Framework (Spring MVC, Spring Boot, Spring Batch etc.)
+    Rest APIs understanding and designing
+    Any Database experience: Relational (Oracle, SQL Server, Postgres) or No SQL (MongoDB, DynamoDB, ElasticSearch)
+    Any Cloud experience on deploying, scaling etc. (AWS, Azure, GCP, IBM)
+
+
+Preferred Qualifications:
+
+    Strong analytical and problem-solving skills.
+    Ability to work effectively in a collaborative, team-oriented environment.
+
+
     """
     generate(job_description)
