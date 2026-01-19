@@ -1,7 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from tailor import generate
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/tailor", methods = ['POST'])
 def generate_resume():
@@ -9,9 +11,9 @@ def generate_resume():
     print(job_description)
     status = generate(job_description)
     if status:
-        return 'All done!'
+        return jsonify({"status": "success"})
     else:
-        return 'Something went wrong!'
+        return jsonify({"status": "error"})
     
 if __name__ == '__main__':
-    app.run("localhost", 5000, True)
+    app.run("localhost", 8000, True)

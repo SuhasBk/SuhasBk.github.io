@@ -94,7 +94,7 @@ def generate_tailored_resume_content(vectorstore: Chroma, job_description: str):
         "as [RETRIEVED CONTEXT], and modify it to align with the [JOB DESCRIPTION]."
         "\n\n**CRITICAL INSTRUCTIONS:**"
         "\n1. **Preserve Structure:** You MUST NOT change the LaTeX preamble, document structure, or custom commands. The overall template is fixed."
-        "\n2. **Targeted Edits:** Rewrite the bullet points within the `\\job{{...}}` sections to highlight skills from the job description. Pick and choose appropriate `\\projects{{...}}` and `\\skills{{...}}` based on job description. Surgically add/remove skills from existing categories. Do NOT modify the categories themselves. Make sure ONLY TOP 2 relevant projects are selected based on job description keywords. Compress the project bullet points into one single bullet point which captures impact. Include/exclude relevant certifications only if required by job description"
+        "\n2. **Targeted Edits:** Rewrite the bullet points within the `\\job{{...}}` sections to highlight skills from the job description. Make sure every job positin is includede in the final result. Pick and choose appropriate `\\projects{{...}}` and `\\skills{{...}}` based on job description. Surgically add/remove skills from existing categories. Do NOT modify the categories themselves. Make sure ONLY TOP 2 relevant projects are selected based on job description keywords. Compress the project bullet points into one single bullet point which captures impact. Include/exclude relevant certifications only if required by job description"
         "\n3. **Full Document Output:** Your final output MUST be the complete, modified master latex. Do NOT change tags. Just fill in the resume parts. Do not wrap the contents in latex markdown tags!!!"
         "\n\n[JOB DESCRIPTION]: {query_job_description}"
         "\n\n[RETRIEVED CONTEXT]: {context}" \
@@ -151,37 +151,6 @@ def generate(job_description):
 
 if __name__ == "__main__":
     job_description = """
-    Key Responsibilities:
-
-    Collaborate with leaders, architects, technical leads, and internal customers to understand and define project requirements.
-    Maintain and enhance enterprise services, applications, and platforms using domain-driven design and test-driven development.
-    Troubleshoot and resolve complex technical issues; identify and implement effective solutions.
-    Create detailed project specifications, requirements, and estimates.
-    Research and integrate new technologies to improve current processes, security, and performance.
-    Support the development and adherence to coding standards, best practices, and security guidelines.
-    Work closely with software architects and technical leads to ensure alignment with long-term enterprise goals.
-
-
-Minimum Requirements:
-
-    Education: Bachelor's degree in Computer Science, Computer Engineering, Technology, Information Systems, Engineering, or a related technical field, or equivalent experience/training.
-    Experience: 1-5 years of experience in the Software Development Life Cycle (SDLC), with hands-on experience in designing, developing, and implementing large-scale applications in hosted production environments.
-
-
-Technical Skills:
-
-    Java - (Minimum Version 8)
-    Experience Spring Framework (Spring MVC, Spring Boot, Spring Batch etc.)
-    Rest APIs understanding and designing
-    Any Database experience: Relational (Oracle, SQL Server, Postgres) or No SQL (MongoDB, DynamoDB, ElasticSearch)
-    Any Cloud experience on deploying, scaling etc. (AWS, Azure, GCP, IBM)
-
-
-Preferred Qualifications:
-
-    Strong analytical and problem-solving skills.
-    Ability to work effectively in a collaborative, team-oriented environment.
-
-
+    
     """
     generate(job_description)
