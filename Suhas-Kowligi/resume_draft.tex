@@ -1,6 +1,6 @@
 \documentclass[10pt]{article}
 
-\usepackage[margin=0.10in]{geometry}
+\usepackage[margin=0.15in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage{parskip}
@@ -30,7 +30,7 @@
 % -------------------------
 \sectionTitle{SUMMARY}
 
-Full Stack Engineer and MSCS graduate (GPA 3.9) with 4+ years of experience in the Software Development Life Cycle (SDLC), designing, developing, and implementing large-scale, cloud-native applications and enterprise services. Proficient in \textbf{Java/Spring Boot}, \textbf{REST APIs}, \textbf{Azure}, \textbf{Terraform}, \textbf{Docker}, \textbf{Kubernetes}, and database optimization. Proven ability to troubleshoot complex issues, collaborate with technical leads, and deliver architectural improvements that enhanced system reliability and performance.
+Software Engineer with 5+ years of experience in designing, developing, and maintaining scalable backend services, microservices, and robust APIs. Proven expertise in \textbf{Java/Spring Boot}, \textbf{Python}, \textbf{Azure}, \textbf{Docker}, \textbf{Kubernetes}, \textbf{PostgreSQL}, and \textbf{MongoDB}. Adept at optimizing application performance, ensuring security, and collaborating with cross-functional teams to deliver high-quality software solutions.
 
 % -------------------------
 % EXPERIENCE
@@ -40,33 +40,33 @@ Full Stack Engineer and MSCS graduate (GPA 3.9) with 4+ years of experience in t
 \textbf{Toshiba Global Commerce Solutions} \hfill Frisco, TX \\
 \textit{Software Engineer I (Full-Time)} \hfill May 2025 -- Present
 \begin{itemize}
-    \item Enhanced enterprise services by refining \textbf{Terraform} parameters and supporting migration to a multi-tenant architecture, increasing deployment frequency by \textbf{70\%}.
-    \item Troubleshot and resolved complex Out-Of-Memory (OOM) issues in \textbf{AKS} microservices, optimizing \textbf{JVM} resource usage and HPA configurations to improve service reliability by \textbf{25\%}.
-    \item Automated secure creation of \textbf{Azure Service Principals} and \textbf{Key Vault} secret ingestion, supporting adherence to security guidelines and reducing manual setup time by \textbf{40\%}.
-    \item Collaborated with technical leads to enhance internal deployment UI workflows, ensuring alignment with enterprise goals and enabling faster product releases.
+    \item Designed and developed scalable multi-tenant backend architectures, enhancing deployment frequency by \textbf{70\%} and supporting robust application growth.
+    \item Optimized \textbf{AKS} microservices by resolving OOM issues, tuning \textbf{Kubernetes HPA}, and optimizing \textbf{JVM} resource usage, improving service reliability by \textbf{25\%}.
+    \item Automated secure provisioning of \textbf{Azure Service Principals} and \textbf{Key Vault} secrets, ensuring security and compliance while reducing manual setup by \textbf{40\%}.
+    \item Engineered solutions to eliminate \textbf{N+1 query} bottlenecks in audit log APIs using in-memory caching, reducing API response time from \textbf{1 minute to 5 seconds}.
 \end{itemize}
 
 \textit{Cloud Engineer Intern} \hfill May 2024 -- May 2025
 \begin{itemize}
-    \item Designed and developed a cloud deployment platform using \textbf{Azure Durable Functions}, integrating Azure Spring Apps, Static Web Apps, and Azure SQL Server for large-scale application deployment.
-    \item Implemented \textbf{Docker}-based service health monitors to proactively detect and resolve degraded cloud resources, reducing downtime by \textbf{20\%}.
-    \item Authored reusable \textbf{Terraform IaC} modules and \textbf{Jenkins} pipelines, standardizing cloud provisioning and artifact generation to improve current processes.
-    \item Integrated \textbf{Azure Service Bus} messaging for reliable automated onboarding workflows, enhancing enterprise service capabilities.
+    \item Developed a cloud deployment platform on \textbf{Azure}, integrating Spring Apps, Static Web Apps, and Azure SQL Server to streamline application delivery.
+    \item Implemented \textbf{Docker}-based service health monitors, proactively detecting and resolving cloud resource issues.
+    \item Authored reusable \textbf{Terraform IaC} modules and \textbf{Jenkins} pipelines, standardizing cloud provisioning and promoting CI/CD best practices.
+    \item Integrated \textbf{Azure Service Bus} for reliable messaging in automated onboarding workflows, enhancing system robustness.
 \end{itemize}
 
 \textbf{Brillio} \hfill Bangalore, India \\
 \textit{Senior Software Engineer} \hfill Apr 2022 -- Aug 2023
 \begin{itemize}
-    \item Collaborated with technical leads to design and deliver high-performance RFDS \textbf{REST APIs} for a major U.S. telecom provider, ensuring alignment with enterprise goals.
-    \item Optimized \textbf{PL/SQL} and implemented multithreading to reduce API latency by \textbf{30\%}, enhancing application performance.
-    \item Automated operational workflows using \textbf{Bash + CRON}, improving efficiency and saving \textbf{10+ engineer-hours} per week.
-    \item Enhanced backend reliability and UI performance through strategic caching and structured refactoring, supporting adherence to best practices.
+    \item Led a 4-member team in the design and delivery of high-performance \textbf{REST APIs} for a major telecom provider, ensuring robust backend functionality.
+    \item Optimized API latency by \textbf{30\%} through advanced \textbf{PL/SQL} tuning and multithreading, significantly improving application performance.
+    \item Automated critical operational workflows using \textbf{Bash} scripting and CRON, saving over \textbf{10 engineer-hours} weekly and improving efficiency.
+    \item Enhanced backend reliability and UI responsiveness by implementing effective caching strategies and structured refactoring.
 \end{itemize}
 
 \textit{Product Engineer} \hfill Sep 2020 -- Apr 2022
 \begin{itemize}
-    \item Developed and maintained full-stack features using \textbf{Spring Boot}, Java EE, and Oracle SQLDeveloper, contributing to the Software Development Life Cycle.
-    \item Troubleshot and resolved production incidents through root-cause analysis and API optimizations, reducing customer issues by \textbf{40\%}.
+    \item Developed and maintained full-stack features using \textbf{Spring Boot}, Java EE, and Oracle SQLDeveloper, contributing to core platform functionality.
+    \item Reduced customer-reported issues by \textbf{40\%} through targeted API optimizations and thorough root-cause analysis of production incidents.
 \end{itemize}
 
 % -------------------------
@@ -74,25 +74,31 @@ Full Stack Engineer and MSCS graduate (GPA 3.9) with 4+ years of experience in t
 % -------------------------
 \sectionTitle{PROJECTS}
 
-\textbf{Walkie-Talkie (WebSockets)} \hfill \href{https://walkie-talkie.fly.dev}{Demo}
+\textbf{Microservices Greeting Card App} \hfill \href{https://github.com/SuhasBk/vcard-microservices}{GitHub}
 \begin{itemize}
-    \item Developed a real-time browser-based voice chat application using \textbf{Spring Boot WebSockets} and binary streaming, supporting concurrent client sessions with low latency, demonstrating expertise in designing scalable backend systems.
+    \item Designed and implemented a full-stack microservice architecture with a \textbf{React} frontend, integrating Giphy API and \textbf{MongoDB Atlas} for scalable data storage and improved modularity.
 \end{itemize}
 
-\textbf{ePapers Web Application} \hfill \href{https://epapers.fly.dev}{Demo}
+\textbf{Walkie-Talkie (WebSockets)} \hfill \href{https://walkie-talkie.fly.dev}{Demo}
 \begin{itemize}
-    \item Designed and deployed a \textbf{Java Spring Boot} web application for accessing local newspaper PDFs, integrating \textbf{MongoDB}, OAuth, and Telegram Bots, applying the \textbf{Strategy Design Pattern} for scalability and maintainability.
+    \item Developed a real-time browser-based voice chat application using \textbf{Spring Boot WebSockets} and binary streaming, supporting concurrent client sessions with low latency.
 \end{itemize}
+
+\textbf{LibSeat Automation} \hfill \href{https://libseat.fly.dev}{Demo}
+\begin{itemize}
+    \item Reduced manual steps in study room reservations by \textbf{90\%} by automating the workflow with a \textbf{Python Flask} web app.
+    \item Simplified user interactions with an intuitive interface and streamlined backend logic.
+\end{itemize} 
 
 % -------------------------
 % SKILLS
 % -------------------------
 \sectionTitle{SKILLS}
 
-\textbf{Languages:} Java, SQL, Python, JavaScript, C, Bash \\
-\textbf{Frameworks \& Libraries:} Spring Boot, Hibernate, REST, JUnit, React, jQuery, Flask, Selenium, PyTorch, TensorFlow, LangChain, NumPy, Pandas \\
-\textbf{Databases:} Oracle PL/SQL, PostgreSQL, SQL Server, MongoDB, MySQL \\
-\textbf{Tools \& Platforms:} Azure, Docker, Kubernetes, Terraform, Jenkins, Git, Kafka, NGINX, Maven, Nexus, SonarQube, JIRA, WebSocket, Linux, JSON, YAML
+\textbf{Languages:} Java, Python, JavaScript, SQL, C, Bash \\
+\textbf{Frameworks \& Libraries:} Spring Boot, Hibernate, React, Flask, jQuery, Selenium, JUnit \\
+\textbf{Databases:} PostgreSQL, Oracle PL/SQL, MongoDB, MySQL, SQL Server \\
+\textbf{Tools \& Platforms:} Azure, Docker, Kubernetes, Terraform, Jenkins, Git, Linux, Kafka, NGINX, Maven, Nexus, SonarQube, JIRA, WebSocket, JSON, YAML, RESTful API Design
 
 % -------------------------
 % CERTIFICATIONS
@@ -106,7 +112,7 @@ Microsoft Azure Fundamentals (AZ-900) \;|\; Scaled Agile Framework (SAFe 5) Prac
 % -------------------------
 \sectionTitle{EDUCATION}
 
-\textbf{University of Texas at Arlington} \hfill Arlington, TX \\
+\textbf{University of Texas} \hfill Arlington, TX \\
 Master of Science, Computer Science — \textbf{GPA: 3.9} \hfill 2025
 
 \textbf{Nitte Meenakshi Institute of Technology} \hfill Bangalore, India \\
