@@ -10,10 +10,9 @@ from googleapiclient.http import MediaFileUpload
 
 # Configuration
 SCOPES = ["https://www.googleapis.com/auth/drive"]
-EXISTING_FILE_ID = "1wDLuXtxKjuxr-RzIDFP4-GdRqCx7JfFs"  # Replace with your file ID
-FILE_TO_UPLOAD = "resume.pdf"  # Your file to upload
-# Absolute path for CLIENT_SECRET_FILE
-CLIENT_SECRET_FILE = "/Users/gandalf/Documents/portfolio/Suhas-Kowligi/client_secret_2_188248758691-imga0p9eghv8dlbnndo1k2kj19us3vi5.apps.googleusercontent.com.json"
+EXISTING_FILE_ID = "1wDLuXtxKjuxr-RzIDFP4-GdRqCx7JfFs"
+FILE_TO_UPLOAD = "resume.pdf"
+CLIENT_SECRET_FILE = "./client_secret_2_188248758691-imga0p9eghv8dlbnndo1k2kj19us3vi5.apps.googleusercontent.com.json"
 
 
 def get_authenticated_service():
