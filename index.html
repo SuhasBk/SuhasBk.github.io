@@ -1,488 +1,1241 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>SuhasOS v1.1.0</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suhas Kowligi</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        />
+        <link
+            rel="icon"
+            href="https://clipartcraft.com/images/rocket-clipart-6.png"
+            type="image/png"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="icon" href="https://clipartcraft.com/images/rocket-clipart-6.png" type="image/png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Titillium+Web:wght@300&display=swap"
-        rel="stylesheet">
-    <link href="static/portfolio.css" rel="stylesheet">
+        <style>
+            :root {
+                --os-bg: #1e1e2e;
+                --os-taskbar: #11111b;
+                --os-window-bg: #181825;
+                --os-window-header: #313244;
+                --os-text: #cdd6f4;
+                --os-text-dim: #a6adc8;
+                --os-accent: #89b4fa;
+                --os-accent-dim: #313244;
+                --os-terminal-bg: #010103;
+            }
 
-</head>
+            body,
+            html {
+                margin: 0;
+                padding: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                font-family: "Titillium Web", sans-serif;
+                background-color: var(--os-bg);
+                color: var(--os-text);
+                user-select: none;
+            }
 
-<body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
-            <a class="navbar-brand" href="#about">Suhas</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#education">Education</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#experience">Experience</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#skills">Skills</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#projects">Projects</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#achievements">Achievements</a>
-                    </li>
-                    <li>
-                        <a id="my-website" class="nav-link" href="" target="_blank">Website <i
-                                class="fa-solid fa-globe"></i></a>
-                    </li>
-                </ul>
+            /* Desktop Workspace */
+            .desktop-environment {
+                position: relative;
+                width: 100%;
+                height: calc(100% - 45px);
+                background: linear-gradient(135deg, #1e1e2e 0%, #11111b 100%);
+                padding: 25px;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, 110px);
+                grid-template-rows: repeat(auto-fill, 110px);
+                grid-auto-flow: column;
+                gap: 20px;
+                align-content: start;
+            }
+
+            /* Desktop Icons */
+            .desktop-icon {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                width: 110px;
+                height: 110px;
+                cursor: pointer;
+                border-radius: 8px;
+                transition:
+                    background 0.2s,
+                    transform 0.1s;
+                text-align: center;
+                padding: 8px;
+            }
+
+            .desktop-icon:hover {
+                background: rgba(137, 180, 250, 0.15);
+                transform: translateY(-2px);
+            }
+
+            .desktop-icon i {
+                font-size: 2.3rem;
+                color: var(--os-accent);
+                margin-bottom: 8px;
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            }
+
+            .desktop-icon span {
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+                word-break: break-word;
+                line-height: 1.2;
+            }
+
+            /* Window Container Framework */
+            .os-window {
+                position: absolute;
+                width: 820px;
+                height: 540px;
+                background: var(--os-window-bg);
+                border: 1px solid #45475a;
+                border-radius: 8px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+                z-index: 10;
+                opacity: 0;
+                transform: scale(0.95);
+                transition:
+                    opacity 0.12s ease,
+                    transform 0.12s ease;
+                pointer-events: none;
+            }
+
+            .os-window.active-window {
+                opacity: 1;
+                transform: scale(1);
+                pointer-events: auto;
+            }
+
+            .os-window.focused {
+                border-color: var(--os-accent);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+            }
+
+            /* Window Header Control Strip */
+            .window-header {
+                background: var(--os-window-header);
+                padding: 10px 15px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: move;
+            }
+
+            .window-title {
+                font-size: 0.9rem;
+                font-weight: 600;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .window-controls {
+                display: flex;
+                gap: 8px;
+            }
+
+            .control-btn {
+                width: 14px;
+                height: 14px;
+                border-radius: 50%;
+                border: none;
+                cursor: pointer;
+            }
+
+            .btn-close-os {
+                background: #f38ba8;
+            }
+            .btn-minimize-os {
+                background: #f9e2af;
+            }
+            .btn-maximize-os {
+                background: #a6e3a1;
+            }
+
+            /* Window Client Frame */
+            .window-body {
+                flex: 1;
+                overflow-y: auto;
+                padding: 22px;
+                user-select: text;
+            }
+
+            /* Specific Application Views */
+            .terminal-view {
+                background: var(--os-terminal-bg);
+                font-family: "JetBrains Mono", monospace;
+                color: #a6e3a1;
+                padding: 18px;
+            }
+
+            /* System Navigation Taskbar */
+            .taskbar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                height: 45px;
+                background: var(--os-taskbar);
+                border-top: 1px solid #313244;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0 15px;
+                z-index: 99999;
+            }
+
+            .taskbar-left,
+            .taskbar-right {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .start-menu-btn {
+                background: var(--os-accent-dim);
+                color: var(--os-accent);
+                border: 1px solid #45475a;
+                padding: 4px 14px;
+                border-radius: 4px;
+                font-weight: 700;
+                font-size: 0.9rem;
+                cursor: pointer;
+            }
+
+            .start-menu-btn:hover {
+                background: var(--os-accent);
+                color: var(--os-taskbar);
+            }
+
+            .running-apps-tray {
+                display: flex;
+                gap: 6px;
+            }
+
+            .tray-item {
+                background: #1e1e2e;
+                border: 1px solid #313244;
+                padding: 4px 14px;
+                border-radius: 4px;
+                font-size: 0.85rem;
+                cursor: pointer;
+                max-width: 160px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .tray-item.active {
+                border-color: var(--os-accent);
+                background: var(--os-window-header);
+            }
+
+            .system-clock {
+                font-family: "JetBrains Mono", monospace;
+                font-size: 0.85rem;
+                font-weight: 500;
+            }
+
+            /* Embedded Content Custom Adaptations */
+            .card {
+                background: #1e1e2e !important;
+                border: 1px solid #313244 !important;
+                color: var(--os-text) !important;
+            }
+            .list-group-item {
+                background: #181825 !important;
+                border-color: #313244 !important;
+                color: var(--os-text) !important;
+            }
+            .text-dark {
+                color: var(--os-text) !important;
+            }
+            .text-muted {
+                color: var(--os-text-dim) !important;
+            }
+            .project-link {
+                font-size: 0.85rem;
+                text-decoration: none;
+                color: var(--os-accent);
+            }
+            .project-link:hover {
+                text-decoration: underline;
+            }
+
+            ::-webkit-scrollbar {
+                width: 8px;
+            }
+            ::-webkit-scrollbar-track {
+                background: var(--os-window-bg);
+            }
+            ::-webkit-scrollbar-thumb {
+                background: #45475a;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Desktop Workspace Grid Context -->
+        <main class="desktop-environment" id="desktop">
+            <div
+                class="desktop-icon"
+                onclick="osWindowManager.openWindow('win-about')"
+            >
+                <i class="fa-solid fa-user-gear"></i>
+                <span>identity.sh</span>
             </div>
-        </div>
-    </nav>
-
-    <header id="header" class="bg-primary text-white text-center py-5">
-        <div class="container">
-            <h1>Suhas Kowligi</h1>
-            <p><i class="fas fa-laptop-code"></i> Full Stack Engineer | MSCS Graduate <i class="fas fa-laptop-code"></i>
-            </p>
-            <p>DFW, TX</p>
-            <div class="header-links">
-                <a href="https://drive.google.com/file/d/1wDLuXtxKjuxr-RzIDFP4-GdRqCx7JfFs/view" target="_blank"><i
-                        class="fa-regular fa-file"></i>&nbsp; Résumé</a>
-                <span class="header-separator"> | </span>
-                <a href="https://www.linkedin.com/in/suhas-kowligi-b39a9415a" target="_blank"><i
-                        class="fa-brands fa-linkedin"></i>&nbsp; LinkedIn</a>
-                <span class="header-separator"> | </span>
-                <a href="https://github.com/SuhasBk" target="_blank"><i class="fa-brands fa-square-github"></i>&nbsp;
-                    GitHub</a>
-                <span class="header-separator"> | </span>
-                <a href="mailto:suhasbk42@gmail.com"><i class="fa-solid fa-envelope"></i>&nbsp; E-mail</a>
+            <div
+                class="desktop-icon"
+                onclick="osWindowManager.openWindow('win-experience')"
+            >
+                <i class="fa-solid fa-folder-tree"></i>
+                <span>experience_matrix</span>
             </div>
-        </div>
-    </header>
-
-    <section id="about" class="py-5 bg-dark text-white">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h2 class="display-4"><i class="fa-solid fa-user"></i> About Me </h2>
-                    <p>
-                        I am a <strong>Full Stack Engineer</strong> and a <strong>Master of Science in Computer Science
-                            graduate (GPA 3.9)</strong> from the University of Texas at Arlington. With over <strong>6
-                            years of professional experience</strong>, I specialize in designing cloud-native services,
-                        microservices, and scalable backend systems.
-                    </p>
-                    <p>
-                        Currently, I work at <strong>Toshiba Global Commerce Solutions</strong>, where I successfully
-                        converted from a Cloud Engineer Intern to a full-time Software Engineer I. My work involves
-                        architecting cloud control planes, automating deployments with <strong>Terraform</strong> and
-                        <strong>Azure</strong>, and optimizing Kubernetes (AKS) clusters.
-                    </p>
-                    <p>
-                        Previously, I served as a <strong>Senior Software Engineer at Brillio</strong> (promoted from
-                        Product Engineer), where I led a team to deliver high-performance APIs for a major U.S. telecom
-                        provider, achieving significant reductions in latency and customer issues.
-                    </p>
-                    <p>
-                        My technical toolkit is extensive, covering <strong>Java/Spring Boot, Python, React, Docker,
-                            Kubernetes, and SQL optimization</strong>. I am passionate about <strong>DevOps
-                            automation</strong> and have recently expanded my expertise into AI, building <strong>RAG
-                            pipelines</strong> and Computer Vision models.
-                    </p>
-                    <p>
-                        When I am not coding, you can find me reading, hiking, or playing guitar. Please feel free to
-                        contact me for opportunities!
-                    </p>
-                </div>
-                <div class="col-lg-6" style="text-align: center;">
-                    <img id="profile-pic" src="static/profile.png" alt="Profile Picture"
-                        class="img-fluid rounded-circle">
-                </div>
+            <div
+                class="desktop-icon"
+                onclick="osWindowManager.openWindow('win-skills')"
+            >
+                <i class="fa-solid fa-cubes"></i>
+                <span>core_dependencies</span>
             </div>
-        </div>
-    </section>
-
-    <section id="education" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="display-4"><i class="fa-solid fa-graduation-cap"></i> Education</h2>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">University of Texas at Arlington</h3>
-                    <p class="card-text">Master of Science, Computer Science (GPA: 3.9)</p>
-                    <p class="card-text">Arlington, TX</p>
-                    <p class="card-text">2023 - 2025</p>
-                    <p class="card-text">Relevant Courses: Design And Analysis of Algorithms, Cloud Computing, Database
-                        Systems, Web Data Management</p>
-                </div>
+            <div
+                class="desktop-icon"
+                onclick="osWindowManager.openWindow('win-projects')"
+            >
+                <i class="fa-solid fa-code-branch"></i>
+                <span>deployed_artifacts</span>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Nitte Meenakshi Institute of Technology</h3>
-                    <p class="card-text">Bachelor of Engineering, Information Science (GPA: 3.68)</p>
-                    <p class="card-text">Bangalore, India</p>
-                    <p class="card-text">2016 - 2020</p>
-                </div>
+            <div
+                class="desktop-icon"
+                onclick="osWindowManager.openWindow('win-education')"
+            >
+                <i class="fa-solid fa-graduation-cap"></i>
+                <span>academic_history</span>
             </div>
-        </div>
-    </section>
-
-    <section id="experience" class="py-5 bg-dark text-white">
-        <div class="container">
-            <h2 class="display-4"><i class="fa-solid fa-briefcase"></i> Experience</h2>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">Toshiba Global Commerce Solutions</h3>
-                    <p class="card-text fw-bold">Software Engineer I (Full-Time)</p>
-                    <p class="card-text">Frisco, TX | May 2025 - Present</p>
-                    <ul class="list-group">
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> <strong>Converted to
-                                Full-Time</strong> based on high-impact contributions to the cloud deployment platform.
-                        </li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Increased deployment
-                            frequency by <strong>70%</strong> by refining Terraform parameters and supporting migration
-                            from single-tenant to multi-tenant architecture.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Resolved persistent
-                            Out-Of-Memory (OOM) issues in AKS microservices, tuned HPA configurations, and optimized JVM
-                            resource usage, improving service reliability by 25%.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Automated secure
-                            creation of Azure Service Principals and Key Vault secret ingestion, reducing manual setup
-                            time across teams by 40%.</li>
-                    </ul>
-                </div>
+            <div
+                class="desktop-icon"
+                onclick="osWindowManager.openWindow('win-achievements')"
+            >
+                <i class="fa-solid fa-trophy"></i>
+                <span>publications_log</span>
             </div>
+        </main>
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">Toshiba Global Commerce Solutions</h3>
-                    <p class="card-text fw-bold">Cloud Engineer Intern</p>
-                    <p class="card-text">Frisco, TX | May 2024 - May 2025</p>
-                    <ul class="list-group">
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Developed cloud
-                            deployment platform using Azure Durable Functions, integrating Azure Spring Apps, Static Web
-                            Apps, and Azure SQL Server.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Built Docker-based
-                            service health monitors using Uptime Kuma, enabling proactive detection of degraded cloud
-                            resources and reducing downtime by 20%.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Authored reusable
-                            Terraform IaC modules and Jenkins pipelines, standardizing cloud provisioning and artifact
-                            generation.</li>
-                    </ul>
-                </div>
-            </div>
+        <!-- WINDOW SYSTEM INSTANTIATIONS -->
 
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">Brillio</h3>
-                    <p class="card-text fw-bold">Senior Software Engineer</p>
-                    <p class="card-text">Bangalore, India | Apr 2022 - Aug 2023</p>
-                    <ul class="list-group">
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Led a 4-member team to
-                            deliver high-performance RFDS REST APIs for a major U.S. telecom provider.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Reduced API latency by
-                            <strong>30%</strong> through PL/SQL optimization and multithreading with ExecutorService.
-                        </li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Automated operational
-                            workflows with Bash + CRON, saving 10+ engineer-hours per week.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Improved backend
-                            reliability and UI performance through caching strategies and structured refactoring.</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">Brillio</h3>
-                    <p class="card-text fw-bold">Product Engineer</p>
-                    <p class="card-text">Bangalore, India | Sep 2020 - Apr 2022</p>
-                    <ul class="list-group">
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Built full-stack
-                            features using Spring Boot, Java EE, jQuery, and Oracle SQLDeveloper.</li>
-                        <li class="list-group-item"><i class="fa-solid fa-hand-point-right"></i> Reduced customer issues
-                            by <strong>40%</strong> via API optimizations and root-cause analysis of production
-                            incidents.</li>
-                    </ul>
-                </div>
-            </div>
-
-        </div>
-    </section>
-
-    <section id="skills" class="py-5">
-        <div class="container">
-            <h2 class="display-4"><i class="fa-solid fa-terminal"></i> Skills</h2>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Languages & Frameworks</h4>
-                    <ul>
-                        <li>Java, Python, C, JavaScript, SQL, Bash</li>
-                        <li>Spring Boot, Hibernate, Flask</li>
-                        <li>React, jQuery</li>
-                        <li>PyTorch, TensorFlow, LangChain</li>
-                        <li>NumPy, Pandas</li>
-                        <li>Selenium, JUnit</li>
-                        <li>WebSocket, REST API</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h4>Tools, Cloud & DB</h4>
-                    <ul>
-                        <li>Microsoft Azure, Docker, Kubernetes (AKS)</li>
-                        <li>Terraform (IaC), Jenkins, Ansible</li>
-                        <li>Apache Kafka, NGINX</li>
-                        <li>Git, Maven, Nexus, SonarQube</li>
-                        <li>PostgreSQL, MongoDB, Oracle PL/SQL</li>
-                        <li>MySQL, SQL Server</li>
-                        <li>Linux/Unix, JIRA</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-12">
-                    <h4>Certifications &nbsp;<a
-                            href="https://drive.google.com/file/d/1-oJWhWelwlIh2b8JnXlidjmstyJmOIzw/view?usp=sharing"
-                            class="btn btn-dark btn-sm" target="_blank">View <i class="fa-solid fa-certificate"></i></a>
-                    </h4>
-                    <ul>
-                        <li>Microsoft Certified: Azure Fundamentals (AZ-900)</li>
-                        <li>Scaled Agile Framework (SAFe 5) Practitioner</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="projects" class="py-5 bg-dark text-white">
-        <div class="container">
-            <h2 class="display-4"><i class="fa-solid fa-code"></i> Projects</h2>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">RAG Pipeline for Document Q&A</h3>
-                    <p class="card-text">AI / Machine Learning</p>
-                    <a href="https://github.com/SuhasBk/doc_kb_RAG" class="btn btn-dark" target="_blank">
-                        GitHub Repository <i class="fa-brands fa-github"></i>
-                    </a>
-                    <p class="mt-2 card-text">
-                        Engineered a local Retrieval-Augmented Generation pipeline using <strong>LangChain</strong>,
-                        <strong>ChromaDB</strong>, and <strong>Phi-3 (Ollama)</strong>. Optimized data flow by
-                        implementing recursive chunking and using nomic-embed-text to solve LLM context window
-                        constraints, enabling accurate Q&A over proprietary PDFs.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">Microservices Greeting Card App</h3>
-                    <p class="card-text">Full Stack / Cloud</p>
-                    <a href="https://github.com/SuhasBk/vcard-microservices" class="btn btn-dark" target="_blank">GitHub
-                        Repository <i class="fa-brands fa-github"></i>
-                    </a>
-                    <p class="mt-2 card-text">
-                        Built a full-stack microservice architecture improving service modularity and scalability.
-                        Integrated Spring Cloud Gateway, Eureka Discovery, Giphy API, and <strong>MongoDB Atlas</strong>
-                        for centralized data storage with a React UI.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">Walkie-Talkie (WebSockets)</h3>
-                    <p class="card-text">Real-Time Web App</p>
-                    <a href="https://walkie-talkie.fly.dev" class="btn btn-dark" target="_blank">
-                        Live Demo <i class="fa-solid fa-tower-broadcast"></i>
-                    </a>
-                    <p class="mt-2 card-text">
-                        Developed a real-time browser-based voice chat app supporting concurrent client sessions.
-                        Captures audio using Web Audio API and streams binary data via <strong>Spring Boot
-                            WebSockets</strong> for low-latency playback.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">ASL Recognition (Computer Vision)</h3>
-                    <p class="card-text">Deep Learning</p>
-                    <p class="mt-2 card-text">
-                        Achieved <strong>96% accuracy</strong> for real-time American Sign Language alphabet recognition
-                        using a <strong>PyTorch</strong> deep learning model. Optimized training with data augmentation
-                        and adaptive learning rates to outperform baseline models like AlexNet.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">ePapers Web Application</h3>
-                    <p class="card-text">Web Application</p>
-                    <a href="https://epapers.fly.dev" class="btn btn-dark" target="_blank">Live Demo <i
-                            class="fa-solid fa-newspaper"></i>
-                    </a>
-                    <p class="mt-2 card-text">
-                        Streamlined access to local newspaper PDFs, integrating MongoDB, OAuth, and Telegram Bots.
-                        Applied the <strong>Strategy Design Pattern</strong> to handle scalable subscription logic based
-                        on city preferences.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">LOTR Design Patterns</h3>
-                    <p class="card-text">Software Architecture</p>
-                    <a href="https://github.com/SuhasBk/LOTR---Design-Patterns" class="btn btn-dark" target="_blank">
-                        GitHub Repository <i class="fa-brands fa-github"></i>
-                    </a>
-                    <p class="mt-2 card-text">
-                        Applied object-oriented design patterns (Strategy, Adapter, Command, Decorator, Factory) to
-                        model complex Lord of the Rings themed scenarios, emphasizing code reusability and
-                        extensibility.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h3 class="card-title">ML-based Ensemble Network Security System</h3>
-                    <p class="card-text">Academic Research</p>
-                    <a href="https://link.springer.com/chapter/10.1007/978-981-16-3342-3_1" class="btn btn-dark"
-                        target="_blank">Read Publication <i class="fa-solid fa-book-open"></i></a>
-                    <p class="mt-2 card-text">
-                        Authored and published a research paper in the <strong>Springer Journal</strong>. Detected
-                        malicious network packets using ML algorithms (Naive Bayes, K-NN, Decision Tree) and automated
-                        threat mitigation using Python and iptables.
-                    </p>
+        <!-- App Context: About -->
+        <div id="win-about" class="os-window" style="top: 8%; left: 12%">
+            <div class="window-header">
+                <span class="window-title"
+                    ><i class="fa-solid fa-user-gear"></i> identity.sh</span
+                >
+                <div class="window-controls">
+                    <button
+                        class="control-btn btn-minimize-os"
+                        onclick="osWindowManager.minimizeWindow('win-about')"
+                    ></button>
+                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-close-os"
+                        onclick="osWindowManager.closeWindow('win-about')"
+                    ></button>
                 </div>
             </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">LibSeat Automation</h3>
-                    <p class="card-text">Automation / Scripting</p>
-                    <a href="https://libseat.fly.dev" class="btn btn-dark" target="_blank">Live Demo <i
-                            class="fa-solid fa-book-open"></i>
-                    </a>
-                    <p class="mt-2 card-text">
-                        Reduced manual steps in study room reservations by <strong>90%</strong> by automating the
-                        workflow with a Python Flask web app. Simplified user interactions with an intuitive interface
-                        and streamlined backend logic.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="hackathons" class="py-5">
-        <div class="container">
-            <h2 class="display-4"><i class="fa-solid fa-people-group"></i><i class="fa-solid fa-laptop-code"></i>
-                Hackathons</h2>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4 class="card-title">Smart India Hackathon (SIH) - 2018</h4>
-                    <p>Bangalore, India</p>
-                    <p class="card-text">
-                        Participated in SIH 2018, a national-level hackathon where I gained substantial knowledge on IoT
-                        devices and their API/SDK integration with smartphones.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4 class="card-title">Hackwell 1.0 - 2019</h4>
-                    <p>Bangalore, India</p>
-                    <p class="card-text">
-                        Took part in a college-level hackathon organized by Honeywell where my team and I built a
-                        Learning Management System (LMS) involving both interactive web app and mobile app.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="achievements" class="py-5 bg-dark text-white">
-        <div class="container">
-            <h2 class="display-4"><i class="fa-solid fa-trophy"></i> Achievements</h2>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4 class="card-title">Machine Learning-Based Ensemble Network Security - Publication</h4>
-                    <p class="card-text">Nov 2021</p>
-                    <a href="https://link.springer.com/chapter/10.1007/978-981-16-3342-3_1" class="btn btn-dark"
-                        target="_blank">Read Publication &nbsp;<i class="fa-solid fa-book-open-reader"></i></a>
-                </div>
-            </div>
-
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h4 class="card-title">Open Source Contribution - Hacktoberfest 2023</h4>
-                    <p class="card-text">Oct 2023</p>
-                    <a href="https://github.com/Mrinank-Bhowmick/python-beginner-projects/pull/373" class="btn btn-dark"
-                        target="_blank">Pull Request&nbsp;&nbsp;<i class="fa-solid fa-code-pull-request"></i></a>
+            <div class="window-body">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h2 class="border-bottom border-secondary pb-2">
+                            Suhas Kowligi
+                        </h2>
+                        <p class="text-muted">
+                            DFW, TX | (682) 406-8550 | suhasbk42@gmail.com
+                        </p>
+                        <div class="mb-3">
+                            <a
+                                href="https://www.linkedin.com/in/suhas-kowligi-b39a9415a"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-primary me-2"
+                                ><i class="fa-brands fa-linkedin"></i>
+                                LinkedIn</a
+                            >
+                            <a
+                                href="https://github.com/SuhasBk"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-light me-2"
+                                ><i class="fa-brands fa-github"></i> GitHub</a
+                            >
+                            <a
+                                href="https://suhasbk.github.io"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-info"
+                                ><i class="fa-solid fa-globe"></i> Portfolio</a
+                            >
+                        </div>
+                        <p>
+                            I am a <strong>Full Stack Engineer</strong> and MSCS
+                            graduate (GPA 3.9) with 6 years of experience
+                            designing cloud-native services, microservices, and
+                            scalable backend systems. Proficient in
+                            <strong>Java/Spring Boot</strong>,
+                            <strong>Azure</strong>, <strong>Terraform</strong>,
+                            <strong>Docker</strong>,
+                            <strong>Kubernetes</strong>, and SQL optimization.
+                        </p>
+                        <p>
+                            I thrive on building optimized, automated
+                            systems—architecting control planes, optimizing
+                            database footprints, and establishing robust
+                            deployment plumbing that moves pipelines faster with
+                            near-zero noise.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <img
+                            src="static/profile.png"
+                            alt="Profile"
+                            class="img-fluid rounded-circle border border-secondary p-1"
+                            onerror="
+                                this.src = 'https://via.placeholder.com/150'
+                            "
+                        />
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
+        <!-- App Context: Experience -->
+        <div id="win-experience" class="os-window" style="top: 12%; left: 16%">
+            <div class="window-header">
+                <span class="window-title"
+                    ><i class="fa-solid fa-folder-tree"></i>
+                    experience_matrix</span
+                >
+                <div class="window-controls">
+                    <button
+                        class="control-btn btn-minimize-os"
+                        onclick="
+                            osWindowManager.minimizeWindow('win-experience')
+                        "
+                    ></button>
+                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-close-os"
+                        onclick="osWindowManager.closeWindow('win-experience')"
+                    ></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <!-- TGCS SE II -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between align-items-start"
+                        >
+                            <h5 class="card-title text-primary mb-1">
+                                Toshiba Global Commerce Solutions
+                            </h5>
+                            <span class="badge bg-primary"
+                                >April 2026 - Present</span
+                            >
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Software Engineer II | Frisco, TX
+                        </h6>
+                        <ul class="small ps-3">
+                            <li>
+                                Scaled an event-driven Control Plane using
+                                <strong>Python Azure Function Apps</strong> and
+                                <strong>Java Microservices</strong> to
+                                orchestrate concurrent infrastructure
+                                deployments, dynamically isolating
+                                <strong>Terraform</strong> state files to
+                                prevent locking collisions.
+                            </li>
+                            <li>
+                                Engineered automated teardown mechanisms for
+                                successful deployments, eliminating orphaned
+                                cloud resources and driving a
+                                <strong>~45% reduction</strong> in monthly
+                                infrastructure spend.
+                            </li>
+                            <li>
+                                Managed complex L3 infrastructure incidents and
+                                executed zero-downtime updates to
+                                <strong>CI/CD</strong> pipelines, ensuring
+                                reliable provisioning for backend engineering
+                                teams.
+                            </li>
+                            <li>
+                                Mentored 2 engineering interns in developing
+                                <strong>agentic AI workflows</strong>,
+                                automating Terraform plan summarizations to
+                                accelerate infrastructure review cycles.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-    <footer class="bg-dark text-white text-center py-3">
-        <div class="container">
-            &copy; <span id="currentYear"></span> Suhas Kowligi | <a
-                href="mailto:suhasbk42@gmail.com">suhasbk42@gmail.com</a>
+                <!-- TGCS SE I -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between align-items-start"
+                        >
+                            <h5 class="card-title text-primary mb-1">
+                                Toshiba Global Commerce Solutions
+                            </h5>
+                            <span class="badge bg-secondary"
+                                >May 2025 - March 2026</span
+                            >
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Software Engineer I | Frisco, TX
+                        </h6>
+                        <ul class="small ps-3">
+                            <li>
+                                Executed end-to-end migration of 6 legacy
+                                <strong>Azure Spring App</strong> workloads to
+                                <strong>Azure Container Apps</strong>
+                                modernizing the compute architecture and
+                                reducing monthly resource costs by
+                                <strong>~50%</strong>.
+                            </li>
+                            <li>
+                                Resolved persistent Out-Of-Memory (OOM) errors
+                                in <strong>AKS</strong> microservices by tuning
+                                <strong>HPA</strong> and
+                                <strong>JVM</strong> configurations, improving
+                                service reliability by <strong>25%</strong>.
+                            </li>
+                            <li>
+                                Eliminated critical
+                                <strong>N+1 query</strong> bottlenecks by
+                                implementing the
+                                <strong>Strategy Pattern</strong> with in-memory
+                                caching, reducing API response time from
+                                <strong>1 minute to 5 seconds</strong>.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- TGCS Intern -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between align-items-start"
+                        >
+                            <h5 class="card-title text-primary mb-1">
+                                Toshiba Global Commerce Solutions
+                            </h5>
+                            <span class="badge bg-dark"
+                                >May 2024 - May 2025</span
+                            >
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Cloud Engineer Intern | Frisco, TX
+                        </h6>
+                        <ul class="small ps-3 mb-0">
+                            <li>
+                                Authored reusable
+                                <strong>Terraform</strong> modules and built
+                                <strong>Docker</strong>-based service health
+                                monitors, standardizing cloud provisioning and
+                                reducing downtime by <strong>20%</strong>.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Brillio Senior -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between align-items-start"
+                        >
+                            <h5 class="card-title text-primary mb-1">
+                                Brillio
+                            </h5>
+                            <span class="badge bg-dark"
+                                >Apr 2022 - Aug 2023</span
+                            >
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Senior Software Engineer | Bangalore, India
+                        </h6>
+                        <ul class="small ps-3">
+                            <li>
+                                Led a 4-member team to deliver high-performance
+                                <strong>REST APIs</strong> for a major U.S.
+                                telecom provider.
+                            </li>
+                            <li>
+                                Reduced API latency by
+                                <strong>30%</strong> through
+                                <strong>PL/SQL</strong> optimization and
+                                multithreading with ExecutorService and
+                                Callable.
+                            </li>
+                            <li>
+                                Automated operational workflows with
+                                <strong>Bash + CRON</strong>, saving
+                                <strong>10+ engineer-hours</strong> per week.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Brillio Product -->
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div
+                            class="d-flex justify-content-between align-items-start"
+                        >
+                            <h5 class="card-title text-primary mb-1">
+                                Brillio
+                            </h5>
+                            <span class="badge bg-dark"
+                                >Sep 2020 - Apr 2022</span
+                            >
+                        </div>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            Product Engineer | Bangalore, India
+                        </h6>
+                        <ul class="small ps-3 mb-0">
+                            <li>
+                                Built full-stack features using
+                                <strong>Spring Boot</strong>, Java EE, jQuery,
+                                and Oracle SQLDeveloper.
+                            </li>
+                            <li>
+                                Reduced customer issues by
+                                <strong>40%</strong> via API optimizations and
+                                root-cause analysis of production incidents.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+        <!-- App Context: Skills -->
+        <div id="win-skills" class="os-window" style="top: 16%; left: 20%">
+            <div class="window-header">
+                <span class="window-title"
+                    ><i class="fa-solid fa-cubes"></i> core_dependencies</span
+                >
+                <div class="window-controls">
+                    <button
+                        class="control-btn btn-minimize-os"
+                        onclick="osWindowManager.minimizeWindow('win-skills')"
+                    ></button>
+                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-close-os"
+                        onclick="osWindowManager.closeWindow('win-skills')"
+                    ></button>
+                </div>
+            </div>
+            <div class="window-body terminal-view">
+                <div>$ profile --fetch-dependencies</div>
+                <div class="mt-3 text-white">>> [LANGUAGES]</div>
+                <div class="ps-3 text-info">
+                    Java, Python, JavaScript, SQL, C, Bash
+                </div>
 
-    <script defer>
-        document.getElementById('my-website').href = location.protocol + '//' + location.host;
-        const currentYear = new Date().getFullYear();
-        const IP = "{{ ip }}";
-        document.getElementById('currentYear').textContent = currentYear;
-        // notify access
-        if (!IP.includes('127.0.0.1')) {
-            fetch("/send_email", {
-                'method': 'POST',
-                'body': JSON.stringify({
-                    'subject': 'Following IP address accessed your portfolio!',
-                    'content':
-                        `<html>
-                        <body>
-                            <p>IP: ${IP}</p>
-                            <p>User-Agent: ${navigator.userAgent}</p>
-                        </body>
-                    </html>
-                    `
-                }),
-                'headers': {
-                    'Content-Type': 'application/json'
+                <div class="mt-3 text-white">>> [FRAMEWORKS & LIBRARIES]</div>
+                <div class="ps-3 text-info">
+                    Spring Boot, Hibernate, React, Flask, jQuery, Selenium,
+                    JUnit, PyTorch, TensorFlow, LangChain, NumPy, Pandas
+                </div>
+
+                <div class="mt-3 text-white">>> [DATABASES]</div>
+                <div class="ps-3 text-info">
+                    PostgreSQL, Oracle PL/SQL, MongoDB, MySQL, SQL Server
+                </div>
+
+                <div class="mt-3 text-white">>> [TOOLS & PLATFORMS]</div>
+                <div class="ps-3 text-info">
+                    Azure, Docker, Kubernetes, Terraform, Jenkins, Git, Linux,
+                    Kafka, NGINX, Maven, Nexus, SonarQube, JIRA, WebSocket,
+                    JSON, YAML
+                </div>
+            </div>
+        </div>
+
+        <!-- App Context: Projects -->
+        <div id="win-projects" class="os-window" style="top: 20%; left: 24%">
+            <div class="window-header">
+                <span class="window-title"
+                    ><i class="fa-solid fa-code-branch"></i> Deployed
+                    Artifacts</span
+                >
+                <div class="window-controls">
+                    <button
+                        class="control-btn btn-minimize-os"
+                        onclick="osWindowManager.minimizeWindow('win-projects')"
+                    ></button>
+                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-close-os"
+                        onclick="osWindowManager.closeWindow('win-projects')"
+                    ></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="row">
+                    <!-- RAG Pipeline -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        RAG Pipeline for Document Q&A
+                                    </h6>
+                                    <a
+                                        href="https://github.com/SuhasBk/doc_kb_RAG"
+                                        target="_blank"
+                                        class="project-link"
+                                        >GitHub</a
+                                    >
+                                </div>
+                                <p class="small text-muted mb-2">
+                                    LangChain, ChromaDB, Phi-3 (Ollama),
+                                    nomic-embed-text
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Enabled faster domain-specific Q&A over PDFs
+                                    by implementing recursive chunking and
+                                    embedding optimizations, improving
+                                    processing efficiency by 50%.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Microservices Card App -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        Microservices Greeting Card App
+                                    </h6>
+                                    <a
+                                        href="https://github.com/SuhasBk/vcard-microservices"
+                                        target="_blank"
+                                        class="project-link"
+                                        >GitHub</a
+                                    >
+                                </div>
+                                <p class="small text-muted mb-2">
+                                    Spring Boot, MongoDB Atlas, React, Giphy API
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Built a full-stack microservice architecture
+                                    improving service modularity and scalability
+                                    for a virtual card sharing application.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Walkie-Talkie -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title text-info">
+                                    Walkie-Talkie (WebSockets)
+                                </h6>
+                                <p class="small text-muted mb-2">
+                                    Spring Boot WebSockets, Web Audio API,
+                                    MediaRecorder
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Developed a real-time browser voice chat app
+                                    supporting concurrent client sessions with
+                                    low-latency binary streaming.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ASL Recognition -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h6 class="card-title text-info">
+                                    ASL Recognition (Computer Vision)
+                                </h6>
+                                <p class="small text-muted mb-2">
+                                    PyTorch, Data Augmentation, Adaptive
+                                    Learning Rates
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Achieved 96% accuracy for real-time American
+                                    Sign Language alphabet recognition,
+                                    outperforming baseline AlexNet structures.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- macOS Smart Home Assistant -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        macOS Smart Home Assistant (Jarvis)
+                                    </h6>
+                                    <a
+                                        href="https://github.com/SuhasBk/smart-home"
+                                        target="_blank"
+                                        class="project-link"
+                                        >GitHub</a
+                                    >
+                                </div>
+                                <p class="small text-muted mb-2">
+                                    Picovoice, Google Gemini LLM, Home
+                                    Assistant, Bash
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Built a private voice assistant using local
+                                    wake-word modules to control IoT systems.
+                                    Automates local VM lifecycles via Python and
+                                    Bash.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ePapers App -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        ePapers Web Application
+                                    </h6>
+                                    <a
+                                        href="https://epapers.fly.dev"
+                                        target="_blank"
+                                        class="project-link"
+                                        >Demo</a
+                                    >
+                                </div>
+                                <p class="small text-muted mb-2">
+                                    MongoDB, OAuth, Telegram Bots, Strategy
+                                    Pattern
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Streamlined scalable access to local
+                                    newspaper PDFs with decoupled subscription
+                                    logic based on design pattern principles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ML Network Security -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        ML Ensemble Network Security
+                                    </h6>
+                                    <a
+                                        href="https://link.springer.com/chapter/10.1007/978-981-16-3342-3_1"
+                                        target="_blank"
+                                        class="project-link"
+                                        >Springer</a
+                                    >
+                                </div>
+                                <p class="small text-muted mb-2">
+                                    Python, iptables, Naive Bayes, K-NN,
+                                    Decision Tree
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Detected malicious network packets using
+                                    ensemble ML models and automated
+                                    network-level threat mitigation.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- LibSeat Automation -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        LibSeat Automation
+                                    </h6>
+                                    <a
+                                        href="https://libseat.fly.dev"
+                                        target="_blank"
+                                        class="project-link"
+                                        >Demo</a
+                                    >
+                                </div>
+                                <p class="small text-muted mb-2">
+                                    Python Flask, Fly.io Deployment Automation
+                                </p>
+                                <p
+                                    class="card-text xsmall"
+                                    style="font-size: 0.85rem"
+                                >
+                                    Reduced manual constraints in university
+                                    study room reservation loops by scripting
+                                    end-to-end booking workflows.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Context: Education -->
+        <div id="win-education" class="os-window" style="top: 6%; left: 35%">
+            <div class="window-header">
+                <span class="window-title"
+                    ><i class="fa-solid fa-graduation-cap"></i>
+                    academic_history</span
+                >
+                <div class="window-controls">
+                    <button
+                        class="control-btn btn-minimize-os"
+                        onclick="
+                            osWindowManager.minimizeWindow('win-education')
+                        "
+                    ></button>
+                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-close-os"
+                        onclick="osWindowManager.closeWindow('win-education')"
+                    ></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <div class="mb-4 border-start border-primary border-4 ps-3">
+                    <h4>University of Texas</h4>
+                    <p class="mb-1 fw-bold text-muted">
+                        Master of Science, Computer Science | GPA: 3.9
+                    </p>
+                    <p class="text-info small">
+                        Graduation: 2025 | Arlington, TX
+                    </p>
+                    <p class="small mt-2">
+                        <strong>Relevant Coursework:</strong> Design And
+                        Analysis of Algorithms, Cloud Computing, Database
+                        Systems, Web Data Management.
+                    </p>
+                </div>
+                <div class="border-start border-secondary border-4 ps-3">
+                    <h4>Nitte Meenakshi Institute of Technology</h4>
+                    <p class="mb-1 fw-bold text-muted">
+                        Bachelor of Engineering, Information Science | GPA: 3.68
+                    </p>
+                    <p class="text-info small">
+                        Graduation: 2020 | Bangalore, India
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Context: Achievements -->
+        <div
+            id="win-achievements"
+            class="os-window"
+            style="top: 15%; left: 40%"
+        >
+            <div class="window-header">
+                <span class="window-title"
+                    ><i class="fa-solid fa-trophy"></i> publications_log</span
+                >
+                <div class="window-controls">
+                    <button
+                        class="control-btn btn-minimize-os"
+                        onclick="
+                            osWindowManager.minimizeWindow('win-achievements')
+                        "
+                    ></button>
+                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-close-os"
+                        onclick="
+                            osWindowManager.closeWindow('win-achievements')
+                        "
+                    ></button>
+                </div>
+            </div>
+            <div class="window-body">
+                <h5 class="text-primary mb-3">
+                    <i class="fa-solid fa-book-open"></i> Publications & Core
+                    Accomplishments
+                </h5>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h6>
+                            Machine Learning-Based Ensemble Network Security
+                            System
+                        </h6>
+                        <p class="small text-muted">
+                            Published in Springer Journal (November 2021)
+                        </p>
+                        <p class="small mb-2">
+                            Authored and published a research paper focused on
+                            classifying malicious packet vectors using
+                            multi-model ensemble mechanics alongside automated
+                            shell response routing hooks.
+                        </p>
+                        <a
+                            href="https://link.springer.com/chapter/10.1007/978-981-16-3342-3_1"
+                            target="_blank"
+                            class="btn btn-xs btn-dark"
+                            style="font-size: 0.8rem"
+                            >View Springer Link
+                            <i
+                                class="fa-solid fa-arrow-up-right-from-square ms-1"
+                            ></i
+                        ></a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h6>Industry Certifications</h6>
+                        <ul class="small mb-0 ps-3">
+                            <li>
+                                <strong>Microsoft Certified:</strong> Azure
+                                Fundamentals (AZ-900)
+                            </li>
+                            <li>
+                                <strong>Scaled Agile Framework:</strong> SAFe 5
+                                Practitioner
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTTOM DESKTOP TASKBAR INTERACTION PLANE -->
+        <footer class="taskbar">
+            <div class="taskbar-left">
+                <button
+                    class="start-menu-btn"
+                    onclick="
+                        alert(
+                            'SuhasOS v1.1.0\nKernel: Pure Web Stack\nBuild Status: Synced with Core Resume',
+                        )
+                    "
+                >
+                    System
+                </button>
+                <div class="running-apps-tray" id="taskbar-tray"></div>
+            </div>
+            <div class="taskbar-right">
+                <div class="system-clock" id="clock-display">00:00:00 AM</div>
+            </div>
+        </footer>
+
+        <!-- RUNTIME MANAGER SCRIPT ENGINE -->
+        <script>
+            class WindowManager {
+                constructor() {
+                    this.windows = document.querySelectorAll(".os-window");
+                    this.trayContainer =
+                        document.getElementById("taskbar-tray");
+                    this.highestZ = 100;
+                    this.init();
                 }
+
+                init() {
+                    this.windows.forEach((win) => {
+                        this.makeDraggable(win);
+                        win.addEventListener("mousedown", () =>
+                            this.focusWindow(win.id),
+                        );
+                    });
+                    this.updateClock();
+                    setInterval(() => this.updateClock(), 1000);
+                }
+
+                updateClock() {
+                    const now = new Date();
+                    document.getElementById("clock-display").textContent =
+                        now.toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                        });
+                }
+
+                openWindow(id) {
+                    const win = document.getElementById(id);
+                    if (!win) return;
+
+                    if (!win.classList.contains("active-window")) {
+                        win.classList.add("active-window");
+                        this.addToTray(id);
+                    }
+                    this.focusWindow(id);
+                }
+
+                closeWindow(id) {
+                    const win = document.getElementById(id);
+                    if (win) win.classList.remove("active-window");
+                    this.removeFromTray(id);
+                }
+
+                minimizeWindow(id) {
+                    const win = document.getElementById(id);
+                    if (win) win.classList.remove("active-window");
+                    const trayItem = document.getElementById(`tray-${id}`);
+                    if (trayItem) trayItem.classList.remove("active");
+                }
+
+                focusWindow(id) {
+                    this.windows.forEach((win) =>
+                        win.classList.remove("focused"),
+                    );
+                    const win = document.getElementById(id);
+                    if (!win) return;
+
+                    this.highestZ++;
+                    win.style.zIndex = this.highestZ;
+                    win.classList.add("focused");
+
+                    document
+                        .querySelectorAll(".tray-item")
+                        .forEach((item) => item.classList.remove("active"));
+                    const trayItem = document.getElementById(`tray-${id}`);
+                    if (trayItem) trayItem.classList.add("active");
+                }
+
+                addToTray(id) {
+                    if (document.getElementById(`tray-${id}`)) return;
+                    const win = document.getElementById(id);
+                    const title = win
+                        .querySelector(".window-title")
+                        .textContent.trim();
+
+                    const trayItem = document.createElement("div");
+                    trayItem.className = "tray-item";
+                    trayItem.id = `tray-${id}`;
+                    trayItem.textContent = title;
+                    trayItem.onclick = () => {
+                        if (
+                            win.classList.contains("active-window") &&
+                            win.classList.contains("focused")
+                        ) {
+                            this.minimizeWindow(id);
+                        } else {
+                            win.classList.add("active-window");
+                            this.focusWindow(id);
+                        }
+                    };
+                    this.trayContainer.appendChild(trayItem);
+                }
+
+                removeFromTray(id) {
+                    const trayItem = document.getElementById(`tray-${id}`);
+                    if (trayItem) trayItem.remove();
+                }
+
+                makeDraggable(windowEl) {
+                    const header = windowEl.querySelector(".window-header");
+                    let pos1 = 0,
+                        pos2 = 0,
+                        pos3 = 0,
+                        pos4 = 0;
+
+                    header.onmousedown = dragMouseDown;
+
+                    function dragMouseDown(e) {
+                        e = e || window.event;
+                        if (
+                            e.target.classList.contains("control-btn") ||
+                            e.target.closest(".window-controls")
+                        )
+                            return;
+                        e.preventDefault();
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+                        document.onmouseup = closeDragElement;
+                        document.onmousemove = elementDrag;
+                    }
+
+                    function elementDrag(e) {
+                        e = e || window.event;
+                        e.preventDefault();
+                        pos1 = pos3 - e.clientX;
+                        pos2 = pos4 - e.clientY;
+                        pos3 = e.clientX;
+                        pos4 = e.clientY;
+
+                        let newTop = windowEl.offsetTop - pos2;
+                        let newLeft = windowEl.offsetLeft - pos1;
+
+                        if (newTop < 0) newTop = 0;
+                        windowEl.style.top = newTop + "px";
+                        windowEl.style.left = newLeft + "px";
+                    }
+
+                    function closeDragElement() {
+                        document.onmouseup = null;
+                        document.onmousemove = null;
+                    }
+                }
+            }
+
+            let osWindowManager;
+            document.addEventListener("DOMContentLoaded", () => {
+                osWindowManager = new WindowManager();
+                osWindowManager.openWindow("win-about");
             });
-        }
-    </script>
-
-</body>
-
+        </script>
+    </body>
 </html>
