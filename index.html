@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>SuhasOS v1.1.0</title>
+        <title>SuhasOS v1.2.3 -- TRON_EDITION</title>
 
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
@@ -21,21 +21,27 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
             rel="stylesheet"
         />
 
         <style>
             :root {
-                --os-bg: #1e1e2e;
-                --os-taskbar: #11111b;
-                --os-window-bg: #181825;
-                --os-window-header: #313244;
-                --os-text: #cdd6f4;
-                --os-text-dim: #a6adc8;
-                --os-accent: #89b4fa;
-                --os-accent-dim: #313244;
+                --os-bg: #020208;
+                --os-taskbar: #050510;
+                --os-window-bg: rgba(5, 5, 15, 0.65);
+                --os-window-header: #0a0a1f;
+                --os-text: #c1e7ff;
+                --os-text-dim: #5c8ca6;
+                --os-accent: #00f2ff;
+                --os-accent-orange: #ff5500;
                 --os-terminal-bg: #010103;
+                --neon-glow:
+                    0 0 10px rgba(0, 242, 255, 0.5),
+                    0 0 20px rgba(0, 242, 255, 0.2);
+                --neon-glow-orange:
+                    0 0 10px rgba(255, 85, 0, 0.5),
+                    0 0 20px rgba(255, 85, 0, 0.2);
             }
 
             body,
@@ -51,12 +57,69 @@
                 user-select: none;
             }
 
-            /* Desktop Workspace */
+            /* TRON Bios Boot Overlay */
+            #os-boot-screen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: #000005;
+                z-index: 999999;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-family: "JetBrains Mono", monospace;
+                color: var(--os-accent);
+                padding: 20px;
+            }
+
+            .boot-container {
+                width: 600px;
+                max-width: 100%;
+            }
+
+            .boot-spinner {
+                width: 60px;
+                height: 60px;
+                border: 3px solid rgba(0, 242, 255, 0.1);
+                border-radius: 50%;
+                border-top-color: var(--os-accent);
+                border-bottom-color: var(--os-accent-orange);
+                animation: spinOS 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+                box-shadow: var(--neon-glow);
+                margin-bottom: 30px;
+            }
+
+            .boot-console-log {
+                height: 180px;
+                overflow: hidden;
+                font-size: 0.85rem;
+                color: var(--os-text-dim);
+                line-height: 1.5;
+                border-left: 2px solid var(--os-accent-orange);
+                padding-left: 15px;
+            }
+
+            /* Desktop Workspace Grid Canvas */
             .desktop-environment {
                 position: relative;
                 width: 100%;
                 height: calc(100% - 45px);
-                background: linear-gradient(135deg, #1e1e2e 0%, #11111b 100%);
+                background-color: #020208;
+                background-image:
+                    linear-gradient(
+                        rgba(0, 242, 255, 0.05) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(0, 242, 255, 0.05) 1px,
+                        transparent 1px
+                    );
+                background-size: 50px 50px;
+                background-position: center;
                 padding: 25px;
                 display: grid;
                 grid-template-columns: repeat(auto-fill, 110px);
@@ -64,6 +127,21 @@
                 grid-auto-flow: column;
                 gap: 20px;
                 align-content: start;
+            }
+
+            .desktop-environment::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    to bottom,
+                    transparent 60%,
+                    rgba(255, 85, 0, 0.04) 100%
+                );
+                pointer-events: none;
             }
 
             /* Desktop Icons */
@@ -75,69 +153,98 @@
                 width: 110px;
                 height: 110px;
                 cursor: pointer;
-                border-radius: 8px;
-                transition:
-                    background 0.2s,
-                    transform 0.1s;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                transition: all 0.2s;
                 text-align: center;
                 padding: 8px;
+                background: rgba(5, 5, 15, 0.4);
             }
 
             .desktop-icon:hover {
-                background: rgba(137, 180, 250, 0.15);
+                background: rgba(0, 242, 255, 0.08);
+                border-color: var(--os-accent);
+                box-shadow: var(--neon-glow);
                 transform: translateY(-2px);
             }
 
             .desktop-icon i {
-                font-size: 2.3rem;
+                font-size: 2.1rem;
                 color: var(--os-accent);
                 margin-bottom: 8px;
-                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+                transition: color 0.2s;
+            }
+
+            .desktop-icon:hover i {
+                color: #fff;
+                text-shadow: var(--neon-glow);
             }
 
             .desktop-icon span {
-                font-size: 0.8rem;
-                font-weight: 600;
-                text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-                word-break: break-word;
-                line-height: 1.2;
+                font-size: 0.75rem;
+                font-family: "JetBrains Mono", monospace;
+                font-weight: 500;
+                color: var(--os-text);
             }
 
             /* Window Container Framework */
             .os-window {
                 position: absolute;
+                top: 0;
+                left: 0;
                 width: 820px;
                 height: 540px;
                 background: var(--os-window-bg);
-                border: 1px solid #45475a;
-                border-radius: 8px;
+                border: 1px solid var(--os-text-dim);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+                border-radius: 2px;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
                 display: flex;
                 flex-direction: column;
                 overflow: hidden;
                 z-index: 10;
                 opacity: 0;
-                transform: scale(0.95);
-                transition:
-                    opacity 0.12s ease,
-                    transform 0.12s ease;
+                transform: translate3d(0, 0, 0) scale(0.97);
                 pointer-events: none;
+                will-change: transform, opacity;
             }
 
             .os-window.active-window {
                 opacity: 1;
-                transform: scale(1);
+                transform: translate3d(var(--win-x, 0px), var(--win-y, 0px), 0)
+                    scale(1);
                 pointer-events: auto;
+                transition: opacity 0.12s ease-out;
+            }
+
+            .os-window.dragging {
+                transition: none !important;
+            }
+
+            .os-window.maximized {
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
             }
 
             .os-window.focused {
                 border-color: var(--os-accent);
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+                box-shadow:
+                    var(--neon-glow),
+                    0 0 30px rgba(0, 0, 0, 0.9);
+            }
+
+            .os-window.focused[id="win-experience"],
+            .os-window.focused[id="win-projects"] {
+                border-color: var(--os-accent-orange);
+                box-shadow:
+                    var(--neon-glow-orange),
+                    0 0 30px rgba(0, 0, 0, 0.9);
             }
 
             /* Window Header Control Strip */
             .window-header {
                 background: var(--os-window-header);
+                border-bottom: 1px solid rgba(0, 242, 255, 0.2);
                 padding: 10px 15px;
                 display: flex;
                 justify-content: space-between;
@@ -146,8 +253,11 @@
             }
 
             .window-title {
-                font-size: 0.9rem;
-                font-weight: 600;
+                font-size: 0.8rem;
+                font-family: "JetBrains Mono", monospace;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
                 display: flex;
                 align-items: center;
                 gap: 8px;
@@ -155,24 +265,35 @@
 
             .window-controls {
                 display: flex;
-                gap: 8px;
+                gap: 10px;
             }
 
             .control-btn {
-                width: 14px;
-                height: 14px;
-                border-radius: 50%;
-                border: none;
+                width: 12px;
+                height: 12px;
+                border-radius: 0%;
+                border: 1px solid transparent;
+                background: transparent;
                 cursor: pointer;
+                position: relative;
             }
 
             .btn-close-os {
+                border-color: #f38ba8;
+            }
+            .btn-close-os:hover {
                 background: #f38ba8;
             }
             .btn-minimize-os {
+                border-color: #f9e2af;
+            }
+            .btn-minimize-os:hover {
                 background: #f9e2af;
             }
             .btn-maximize-os {
+                border-color: #a6e3a1;
+            }
+            .btn-maximize-os:hover {
                 background: #a6e3a1;
             }
 
@@ -190,6 +311,7 @@
                 font-family: "JetBrains Mono", monospace;
                 color: #a6e3a1;
                 padding: 18px;
+                border: 1px solid rgba(166, 227, 161, 0.2);
             }
 
             /* System Navigation Taskbar */
@@ -200,7 +322,8 @@
                 width: 100%;
                 height: 45px;
                 background: var(--os-taskbar);
-                border-top: 1px solid #313244;
+                border-top: 2px solid var(--os-accent);
+                box-shadow: 0 -5px 15px rgba(0, 242, 255, 0.1);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
@@ -213,94 +336,152 @@
                 display: flex;
                 align-items: center;
                 gap: 10px;
+                height: 100%;
             }
 
             .start-menu-btn {
-                background: var(--os-accent-dim);
+                background: transparent;
                 color: var(--os-accent);
-                border: 1px solid #45475a;
-                padding: 4px 14px;
-                border-radius: 4px;
+                border: 1px solid var(--os-accent);
+                padding: 3px 14px;
+                border-radius: 0px;
+                font-family: "JetBrains Mono", monospace;
                 font-weight: 700;
-                font-size: 0.9rem;
+                text-transform: uppercase;
+                font-size: 0.8rem;
                 cursor: pointer;
+                transition: all 0.2s;
+                display: inline-flex;
+                align-items: center;
             }
 
             .start-menu-btn:hover {
                 background: var(--os-accent);
-                color: var(--os-taskbar);
+                color: #000;
+                box-shadow: var(--neon-glow);
             }
 
             .running-apps-tray {
                 display: flex;
-                gap: 6px;
+                align-items: center;
+                gap: 8px;
+                height: 100%;
             }
 
             .tray-item {
-                background: #1e1e2e;
-                border: 1px solid #313244;
+                background: rgba(10, 10, 31, 0.6);
+                border: 1px solid var(--os-text-dim);
+                color: var(--os-text-dim);
+                font-family: "JetBrains Mono", monospace;
                 padding: 4px 14px;
-                border-radius: 4px;
-                font-size: 0.85rem;
+                border-radius: 0px;
+                font-size: 0.8rem;
                 cursor: pointer;
                 max-width: 160px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
+                transition: all 0.2s;
+                display: inline-flex;
+                align-items: center;
             }
 
             .tray-item.active {
                 border-color: var(--os-accent);
-                background: var(--os-window-header);
+                color: var(--os-accent);
+                background: rgba(0, 242, 255, 0.05);
+                box-shadow: inset 0 0 8px rgba(0, 242, 255, 0.2);
             }
 
             .system-clock {
                 font-family: "JetBrains Mono", monospace;
                 font-size: 0.85rem;
-                font-weight: 500;
+                color: var(--os-accent);
+                text-shadow: var(--neon-glow);
             }
 
             /* Embedded Content Custom Adaptations */
             .card {
-                background: #1e1e2e !important;
-                border: 1px solid #313244 !important;
+                background: rgba(10, 10, 31, 0.6) !important;
+                border: 1px solid rgba(0, 242, 255, 0.15) !important;
                 color: var(--os-text) !important;
+                border-radius: 0px !important;
+            }
+            .card:hover {
+                border-color: rgba(0, 242, 255, 0.4) !important;
             }
             .list-group-item {
-                background: #181825 !important;
-                border-color: #313244 !important;
+                background: transparent !important;
+                border-color: rgba(0, 242, 255, 0.1) !important;
                 color: var(--os-text) !important;
             }
-            .text-dark {
-                color: var(--os-text) !important;
+            .text-primary {
+                color: var(--os-accent) !important;
+                text-shadow: 0 0 4px rgba(0, 242, 255, 0.3);
+            }
+            .text-info {
+                color: #fff !important;
+                text-shadow: var(--neon-glow);
             }
             .text-muted {
                 color: var(--os-text-dim) !important;
             }
+            .badge {
+                border-radius: 0px;
+                font-family: "JetBrains Mono", monospace;
+            }
+            .bg-primary {
+                background-color: var(--os-accent-orange) !important;
+                color: #000 !important;
+                font-weight: 700;
+            }
+
             .project-link {
                 font-size: 0.85rem;
+                font-family: "JetBrains Mono", monospace;
                 text-decoration: none;
-                color: var(--os-accent);
+                color: var(--os-accent-orange);
             }
             .project-link:hover {
                 text-decoration: underline;
+                color: #fff;
             }
 
             ::-webkit-scrollbar {
-                width: 8px;
+                width: 6px;
             }
             ::-webkit-scrollbar-track {
-                background: var(--os-window-bg);
+                background: var(--os-window-header);
             }
             ::-webkit-scrollbar-thumb {
-                background: #45475a;
-                border-radius: 4px;
+                background: var(--os-text-dim);
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: var(--os-accent);
+            }
+
+            @keyframes spinOS {
+                100% {
+                    transform: rotate(360deg);
+                }
             }
         </style>
     </head>
 
     <body>
-        <!-- Desktop Workspace Grid Context -->
+        <div id="os-boot-screen">
+            <div class="boot-container">
+                <div class="d-flex flex-column align-items-center mb-4">
+                    <div class="boot-spinner"></div>
+                    <h4 class="text-uppercase tracking-wider">
+                        Loading SuhasOS Core
+                    </h4>
+                    <p class="small text-muted">MCP KERNEL v1.2.3-STABLE</p>
+                </div>
+                <div class="boot-console-log" id="boot-log"></div>
+            </div>
+        </div>
+
         <main class="desktop-environment" id="desktop">
             <div
                 class="desktop-icon"
@@ -344,12 +525,24 @@
                 <i class="fa-solid fa-trophy"></i>
                 <span>publications_log</span>
             </div>
+            <div
+                class="desktop-icon"
+                onclick="
+                    window.open(
+                        'https://drive.google.com/file/d/1wDLuXtxKjuxr-RzIDFP4-GdRqCx7JfFs/view',
+                        '_blank',
+                    )
+                "
+            >
+                <i
+                    class="fa-solid fa-file-pdf"
+                    style="color: var(--os-accent-orange)"
+                ></i>
+                <span>resume.pdf</span>
+            </div>
         </main>
 
-        <!-- WINDOW SYSTEM INSTANTIATIONS -->
-
-        <!-- App Context: About -->
-        <div id="win-about" class="os-window" style="top: 8%; left: 12%">
+        <div id="win-about" class="os-window">
             <div class="window-header">
                 <span class="window-title"
                     ><i class="fa-solid fa-user-gear"></i> identity.sh</span
@@ -359,7 +552,10 @@
                         class="control-btn btn-minimize-os"
                         onclick="osWindowManager.minimizeWindow('win-about')"
                     ></button>
-                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-maximize-os"
+                        onclick="osWindowManager.maximizeWindow('win-about')"
+                    ></button>
                     <button
                         class="control-btn btn-close-os"
                         onclick="osWindowManager.closeWindow('win-about')"
@@ -369,18 +565,31 @@
             <div class="window-body">
                 <div class="row align-items-center">
                     <div class="col-md-8">
-                        <h2 class="border-bottom border-secondary pb-2">
+                        <h2
+                            class="border-bottom border-secondary pb-2 text-primary"
+                        >
                             Suhas Kowligi
                         </h2>
-                        <p class="text-muted">
+                        <p class="text-muted font-monospace small">
                             DFW, TX | (682) 406-8550 | suhasbk42@gmail.com
                         </p>
-                        <div class="mb-3">
+                        <div class="mb-4">
+                            <a
+                                href="https://drive.google.com/file/d/1wDLuXtxKjuxr-RzIDFP4-GdRqCx7JfFs/view"
+                                target="_blank"
+                                class="btn btn-sm btn-outline-light me-2"
+                                ><i
+                                    class="fa-regular fa-file-pdf text-danger"
+                                ></i>
+                                Résumé</a
+                            >
                             <a
                                 href="https://www.linkedin.com/in/suhas-kowligi-b39a9415a"
                                 target="_blank"
-                                class="btn btn-sm btn-outline-primary me-2"
-                                ><i class="fa-brands fa-linkedin"></i>
+                                class="btn btn-sm btn-outline-light me-2"
+                                ><i
+                                    class="fa-brands fa-linkedin text-primary"
+                                ></i>
                                 LinkedIn</a
                             >
                             <a
@@ -392,33 +601,34 @@
                             <a
                                 href="https://suhasbk.github.io"
                                 target="_blank"
-                                class="btn btn-sm btn-outline-info"
-                                ><i class="fa-solid fa-globe"></i> Portfolio</a
+                                class="btn btn-sm btn-outline-light"
+                                ><i class="fa-solid fa-globe text-info"></i>
+                                Portfolio</a
                             >
                         </div>
                         <p>
-                            I am a <strong>Full Stack Engineer</strong> and MSCS
-                            graduate (GPA 3.9) with 6 years of experience
-                            designing cloud-native services, microservices, and
-                            scalable backend systems. Proficient in
+                            Full Stack Engineer and MSCS graduate (GPA 3.9) with
+                            6 years of experience designing cloud-native
+                            services, microservices, and scalable backend
+                            systems. Proficient in
                             <strong>Java/Spring Boot</strong>,
                             <strong>Azure</strong>, <strong>Terraform</strong>,
                             <strong>Docker</strong>,
                             <strong>Kubernetes</strong>, and SQL optimization.
                         </p>
                         <p>
-                            I thrive on building optimized, automated
-                            systems—architecting control planes, optimizing
-                            database footprints, and establishing robust
-                            deployment plumbing that moves pipelines faster with
-                            near-zero noise.
+                            Delivered high-impact architectural improvements
+                            that improved deployment frequency by
+                            <strong>70%</strong> and reduced system latency by
+                            <strong>30%</strong>.
                         </p>
                     </div>
                     <div class="col-md-4 text-center">
                         <img
                             src="static/profile.png"
                             alt="Profile"
-                            class="img-fluid rounded-circle border border-secondary p-1"
+                            class="img-fluid rounded-circle border border-info p-1"
+                            style="box-shadow: var(--neon-glow)"
                             onerror="
                                 this.src = 'https://via.placeholder.com/150'
                             "
@@ -428,8 +638,7 @@
             </div>
         </div>
 
-        <!-- App Context: Experience -->
-        <div id="win-experience" class="os-window" style="top: 12%; left: 16%">
+        <div id="win-experience" class="os-window">
             <div class="window-header">
                 <span class="window-title"
                     ><i class="fa-solid fa-folder-tree"></i>
@@ -442,7 +651,12 @@
                             osWindowManager.minimizeWindow('win-experience')
                         "
                     ></button>
-                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-maximize-os"
+                        onclick="
+                            osWindowManager.maximizeWindow('win-experience')
+                        "
+                    ></button>
                     <button
                         class="control-btn btn-close-os"
                         onclick="osWindowManager.closeWindow('win-experience')"
@@ -450,7 +664,6 @@
                 </div>
             </div>
             <div class="window-body">
-                <!-- TGCS SE II -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div
@@ -463,7 +676,9 @@
                                 >April 2026 - Present</span
                             >
                         </div>
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6
+                            class="card-subtitle mb-2 text-muted font-monospace small"
+                        >
                             Software Engineer II | Frisco, TX
                         </h6>
                         <ul class="small ps-3">
@@ -500,7 +715,6 @@
                     </div>
                 </div>
 
-                <!-- TGCS SE I -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div
@@ -513,7 +727,9 @@
                                 >May 2025 - March 2026</span
                             >
                         </div>
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6
+                            class="card-subtitle mb-2 text-muted font-monospace small"
+                        >
                             Software Engineer I | Frisco, TX
                         </h6>
                         <ul class="small ps-3">
@@ -544,7 +760,6 @@
                     </div>
                 </div>
 
-                <!-- TGCS Intern -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div
@@ -553,11 +768,13 @@
                             <h5 class="card-title text-primary mb-1">
                                 Toshiba Global Commerce Solutions
                             </h5>
-                            <span class="badge bg-dark"
+                            <span class="badge bg-dark text-muted"
                                 >May 2024 - May 2025</span
                             >
                         </div>
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6
+                            class="card-subtitle mb-2 text-muted font-monospace small"
+                        >
                             Cloud Engineer Intern | Frisco, TX
                         </h6>
                         <ul class="small ps-3 mb-0">
@@ -572,7 +789,6 @@
                     </div>
                 </div>
 
-                <!-- Brillio Senior -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div
@@ -581,11 +797,13 @@
                             <h5 class="card-title text-primary mb-1">
                                 Brillio
                             </h5>
-                            <span class="badge bg-dark"
+                            <span class="badge bg-dark text-muted"
                                 >Apr 2022 - Aug 2023</span
                             >
                         </div>
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6
+                            class="card-subtitle mb-2 text-muted font-monospace small"
+                        >
                             Senior Software Engineer | Bangalore, India
                         </h6>
                         <ul class="small ps-3">
@@ -610,7 +828,6 @@
                     </div>
                 </div>
 
-                <!-- Brillio Product -->
                 <div class="card mb-3">
                     <div class="card-body">
                         <div
@@ -619,11 +836,13 @@
                             <h5 class="card-title text-primary mb-1">
                                 Brillio
                             </h5>
-                            <span class="badge bg-dark"
+                            <span class="badge bg-dark text-muted"
                                 >Sep 2020 - Apr 2022</span
                             >
                         </div>
-                        <h6 class="card-subtitle mb-2 text-muted">
+                        <h6
+                            class="card-subtitle mb-2 text-muted font-monospace small"
+                        >
                             Product Engineer | Bangalore, India
                         </h6>
                         <ul class="small ps-3 mb-0">
@@ -643,8 +862,7 @@
             </div>
         </div>
 
-        <!-- App Context: Skills -->
-        <div id="win-skills" class="os-window" style="top: 16%; left: 20%">
+        <div id="win-skills" class="os-window">
             <div class="window-header">
                 <span class="window-title"
                     ><i class="fa-solid fa-cubes"></i> core_dependencies</span
@@ -654,7 +872,10 @@
                         class="control-btn btn-minimize-os"
                         onclick="osWindowManager.minimizeWindow('win-skills')"
                     ></button>
-                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-maximize-os"
+                        onclick="osWindowManager.maximizeWindow('win-skills')"
+                    ></button>
                     <button
                         class="control-btn btn-close-os"
                         onclick="osWindowManager.closeWindow('win-skills')"
@@ -663,23 +884,23 @@
             </div>
             <div class="window-body terminal-view">
                 <div>$ profile --fetch-dependencies</div>
-                <div class="mt-3 text-white">>> [LANGUAGES]</div>
+                <div class="mt-3 text-warning">>> [LANGUAGES]</div>
                 <div class="ps-3 text-info">
                     Java, Python, JavaScript, SQL, C, Bash
                 </div>
 
-                <div class="mt-3 text-white">>> [FRAMEWORKS & LIBRARIES]</div>
+                <div class="mt-3 text-warning">>> [FRAMEWORKS & LIBRARIES]</div>
                 <div class="ps-3 text-info">
                     Spring Boot, Hibernate, React, Flask, jQuery, Selenium,
                     JUnit, PyTorch, TensorFlow, LangChain, NumPy, Pandas
                 </div>
 
-                <div class="mt-3 text-white">>> [DATABASES]</div>
+                <div class="mt-3 text-warning">>> [DATABASES]</div>
                 <div class="ps-3 text-info">
                     PostgreSQL, Oracle PL/SQL, MongoDB, MySQL, SQL Server
                 </div>
 
-                <div class="mt-3 text-white">>> [TOOLS & PLATFORMS]</div>
+                <div class="mt-3 text-warning">>> [TOOLS & PLATFORMS]</div>
                 <div class="ps-3 text-info">
                     Azure, Docker, Kubernetes, Terraform, Jenkins, Git, Linux,
                     Kafka, NGINX, Maven, Nexus, SonarQube, JIRA, WebSocket,
@@ -688,8 +909,7 @@
             </div>
         </div>
 
-        <!-- App Context: Projects -->
-        <div id="win-projects" class="os-window" style="top: 20%; left: 24%">
+        <div id="win-projects" class="os-window">
             <div class="window-header">
                 <span class="window-title"
                     ><i class="fa-solid fa-code-branch"></i> Deployed
@@ -700,7 +920,10 @@
                         class="control-btn btn-minimize-os"
                         onclick="osWindowManager.minimizeWindow('win-projects')"
                     ></button>
-                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-maximize-os"
+                        onclick="osWindowManager.maximizeWindow('win-projects')"
+                    ></button>
                     <button
                         class="control-btn btn-close-os"
                         onclick="osWindowManager.closeWindow('win-projects')"
@@ -709,7 +932,6 @@
             </div>
             <div class="window-body">
                 <div class="row">
-                    <!-- RAG Pipeline -->
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
@@ -724,23 +946,25 @@
                                         >GitHub</a
                                     >
                                 </div>
-                                <p class="small text-muted mb-2">
-                                    LangChain, ChromaDB, Phi-3 (Ollama),
-                                    nomic-embed-text
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Enabled faster domain-specific Q&A over PDFs
-                                    by implementing recursive chunking and
-                                    embedding optimizations, improving
-                                    processing efficiency by 50%.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Enabled faster domain-specific Q&A over
+                                        PDFs by implementing recursive chunking
+                                        and embedding optimizations using
+                                        <strong>nomic-embed-text</strong>,
+                                        improving processing efficiency by
+                                        <strong>50%</strong>.
+                                    </li>
+                                    <li>
+                                        Built the pipeline using
+                                        <strong>LangChain</strong>,
+                                        <strong>ChromaDB</strong>, and
+                                        <strong>Phi-3 (Ollama)</strong>.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- Microservices Card App -->
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
@@ -755,96 +979,72 @@
                                         >GitHub</a
                                     >
                                 </div>
-                                <p class="small text-muted mb-2">
-                                    Spring Boot, MongoDB Atlas, React, Giphy API
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Built a full-stack microservice architecture
-                                    improving service modularity and scalability
-                                    for a virtual card sharing application.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Built a full-stack microservice
+                                        architecture in Spring Boot, improving
+                                        service modularity and scalability for a
+                                        virtual greeting card application where
+                                        users can create and share greeting
+                                        cards.
+                                    </li>
+                                    <li>
+                                        Integrated Giphy API and
+                                        <strong>MongoDB Atlas</strong> for
+                                        centralized data storage, with a
+                                        <strong>React</strong> frontend.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- Walkie-Talkie -->
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h6 class="card-title text-info">
                                     Walkie-Talkie (WebSockets)
                                 </h6>
-                                <p class="small text-muted mb-2">
-                                    Spring Boot WebSockets, Web Audio API,
-                                    MediaRecorder
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Developed a real-time browser voice chat app
-                                    supporting concurrent client sessions with
-                                    low-latency binary streaming.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Developed a real-time browser-based
+                                        voice chat app, supporting concurrent
+                                        client sessions with low latency.
+                                    </li>
+                                    <li>
+                                        Captured and played back audio using Web
+                                        Audio API and MediaRecorder; backend
+                                        implemented with
+                                        <strong>Spring Boot WebSockets</strong>
+                                        and binary streaming.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- ASL Recognition -->
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
                                 <h6 class="card-title text-info">
                                     ASL Recognition (Computer Vision)
                                 </h6>
-                                <p class="small text-muted mb-2">
-                                    PyTorch, Data Augmentation, Adaptive
-                                    Learning Rates
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Achieved 96% accuracy for real-time American
-                                    Sign Language alphabet recognition,
-                                    outperforming baseline AlexNet structures.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Achieved
+                                        <strong>96% accuracy</strong> for
+                                        real-time ASL alphabet recognition using
+                                        a <strong>PyTorch</strong> deep learning
+                                        model.
+                                    </li>
+                                    <li>
+                                        Optimized the training pipeline with
+                                        data augmentation and adaptive learning
+                                        rates to outperform baseline models like
+                                        AlexNet.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- macOS Smart Home Assistant -->
-                    <div class="col-md-6 mb-3">
-                        <div class="card h-100">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between">
-                                    <h6 class="card-title text-info">
-                                        macOS Smart Home Assistant (Jarvis)
-                                    </h6>
-                                    <a
-                                        href="https://github.com/SuhasBk/smart-home"
-                                        target="_blank"
-                                        class="project-link"
-                                        >GitHub</a
-                                    >
-                                </div>
-                                <p class="small text-muted mb-2">
-                                    Picovoice, Google Gemini LLM, Home
-                                    Assistant, Bash
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Built a private voice assistant using local
-                                    wake-word modules to control IoT systems.
-                                    Automates local VM lifecycles via Python and
-                                    Bash.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- ePapers App -->
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
@@ -859,52 +1059,92 @@
                                         >Demo</a
                                     >
                                 </div>
-                                <p class="small text-muted mb-2">
-                                    MongoDB, OAuth, Telegram Bots, Strategy
-                                    Pattern
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Streamlined scalable access to local
-                                    newspaper PDFs with decoupled subscription
-                                    logic based on design pattern principles.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Streamlined access to local newspaper
+                                        PDFs, integrating
+                                        <strong>MongoDB</strong>, OAuth, and
+                                        Telegram Bots.
+                                    </li>
+                                    <li>
+                                        Applied
+                                        <strong>Strategy Design Pattern</strong>
+                                        to handle subscription logic and
+                                        scalability.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- ML Network Security -->
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                     <h6 class="card-title text-info">
-                                        ML Ensemble Network Security
+                                        ML-based Ensemble Network Security
+                                        System
                                     </h6>
                                     <a
                                         href="https://link.springer.com/chapter/10.1007/978-981-16-3342-3_1"
                                         target="_blank"
                                         class="project-link"
-                                        >Springer</a
+                                        >Springer Link</a
                                     >
                                 </div>
-                                <p class="small text-muted mb-2">
-                                    Python, iptables, Naive Bayes, K-NN,
-                                    Decision Tree
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Detected malicious network packets using
-                                    ensemble ML models and automated
-                                    network-level threat mitigation.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Detected malicious network packets using
+                                        ML algorithms (Naive Bayes, K-NN,
+                                        Decision Tree), improving security
+                                        monitoring efficiency.
+                                    </li>
+                                    <li>
+                                        Authored and published a research paper
+                                        in the
+                                        <strong>Springer Journal</strong>
+                                        (November 2021).
+                                    </li>
+                                    <li>
+                                        Implemented scripts with
+                                        <strong>Python</strong> and iptables for
+                                        automated threat mitigation.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <!-- LibSeat Automation -->
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        Lord of the Rings (LOTR) Design Patterns
+                                    </h6>
+                                    <a
+                                        href="https://github.com/SuhasBk/LOTR---Design-Patterns"
+                                        target="_blank"
+                                        class="project-link"
+                                        >GitHub</a
+                                    >
+                                </div>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Applied object-oriented design patterns
+                                        (<strong
+                                            >Strategy, Adapter, Command,
+                                            Decorator, Factory</strong
+                                        >) to model complex LOTR-themed
+                                        scenarios.
+                                    </li>
+                                    <li>
+                                        Improved code reusability and
+                                        maintainability by implementing modular
+                                        and extensible solutions.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                     <div class="col-md-6 mb-3">
                         <div class="card h-100">
                             <div class="card-body">
@@ -919,17 +1159,53 @@
                                         >Demo</a
                                     >
                                 </div>
-                                <p class="small text-muted mb-2">
-                                    Python Flask, Fly.io Deployment Automation
-                                </p>
-                                <p
-                                    class="card-text xsmall"
-                                    style="font-size: 0.85rem"
-                                >
-                                    Reduced manual constraints in university
-                                    study room reservation loops by scripting
-                                    end-to-end booking workflows.
-                                </p>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Reduced manual steps in study room
+                                        reservations at university by automating
+                                        the workflow with a
+                                        <strong>Python Flask</strong> web app
+                                        deployed on <strong>Fly.io</strong>.
+                                    </li>
+                                    <li>
+                                        Simplified user interactions with an
+                                        intuitive interface and streamlined
+                                        backend logic.
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between">
+                                    <h6 class="card-title text-info">
+                                        macOS Smart Home Assistant (Jarvis)
+                                    </h6>
+                                    <a
+                                        href="https://github.com/SuhasBk/smart-home"
+                                        target="_blank"
+                                        class="project-link"
+                                        >GitHub</a
+                                    >
+                                </div>
+                                <ul class="small ps-3 mb-0">
+                                    <li>
+                                        Built a private voice assistant using
+                                        <strong>Picovoice</strong> (local
+                                        wake-word) and
+                                        <strong>Google Gemini LLM</strong> to
+                                        control IoT devices via a headless
+                                        <strong>Home Assistant</strong> VM.
+                                    </li>
+                                    <li>
+                                        Automating server infrastructure and VM
+                                        lifecycle management using
+                                        <strong>Bash</strong> scripts and
+                                        Python.
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -937,8 +1213,7 @@
             </div>
         </div>
 
-        <!-- App Context: Education -->
-        <div id="win-education" class="os-window" style="top: 6%; left: 35%">
+        <div id="win-education" class="os-window">
             <div class="window-header">
                 <span class="window-title"
                     ><i class="fa-solid fa-graduation-cap"></i>
@@ -951,7 +1226,12 @@
                             osWindowManager.minimizeWindow('win-education')
                         "
                     ></button>
-                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-maximize-os"
+                        onclick="
+                            osWindowManager.maximizeWindow('win-education')
+                        "
+                    ></button>
                     <button
                         class="control-btn btn-close-os"
                         onclick="osWindowManager.closeWindow('win-education')"
@@ -959,12 +1239,12 @@
                 </div>
             </div>
             <div class="window-body">
-                <div class="mb-4 border-start border-primary border-4 ps-3">
+                <div class="mb-4 border-start border-info border-4 ps-3">
                     <h4>University of Texas</h4>
                     <p class="mb-1 fw-bold text-muted">
                         Master of Science, Computer Science | GPA: 3.9
                     </p>
-                    <p class="text-info small">
+                    <p class="text-primary small font-monospace">
                         Graduation: 2025 | Arlington, TX
                     </p>
                     <p class="small mt-2">
@@ -978,19 +1258,14 @@
                     <p class="mb-1 fw-bold text-muted">
                         Bachelor of Engineering, Information Science | GPA: 3.68
                     </p>
-                    <p class="text-info small">
+                    <p class="text-primary small font-monospace">
                         Graduation: 2020 | Bangalore, India
                     </p>
                 </div>
             </div>
         </div>
 
-        <!-- App Context: Achievements -->
-        <div
-            id="win-achievements"
-            class="os-window"
-            style="top: 15%; left: 40%"
-        >
+        <div id="win-achievements" class="os-window">
             <div class="window-header">
                 <span class="window-title"
                     ><i class="fa-solid fa-trophy"></i> publications_log</span
@@ -1002,7 +1277,12 @@
                             osWindowManager.minimizeWindow('win-achievements')
                         "
                     ></button>
-                    <button class="control-btn btn-maximize-os"></button>
+                    <button
+                        class="control-btn btn-maximize-os"
+                        onclick="
+                            osWindowManager.maximizeWindow('win-achievements')
+                        "
+                    ></button>
                     <button
                         class="control-btn btn-close-os"
                         onclick="
@@ -1022,19 +1302,28 @@
                             Machine Learning-Based Ensemble Network Security
                             System
                         </h6>
-                        <p class="small text-muted">
+                        <p class="small text-muted font-monospace">
                             Published in Springer Journal (November 2021)
                         </p>
-                        <p class="small mb-2">
-                            Authored and published a research paper focused on
-                            classifying malicious packet vectors using
-                            multi-model ensemble mechanics alongside automated
-                            shell response routing hooks.
-                        </p>
+                        <ul class="small ps-3 mb-2">
+                            <li>
+                                Detected malicious network packets using ML
+                                algorithms (Naive Bayes, K-NN, Decision Tree),
+                                improving security monitoring efficiency.
+                            </li>
+                            <li>
+                                Authored and published a research paper in the
+                                Springer Journal (November 2021).
+                            </li>
+                            <li>
+                                Implemented scripts with Python and iptables for
+                                automated threat mitigation.
+                            </li>
+                        </ul>
                         <a
                             href="https://link.springer.com/chapter/10.1007/978-981-16-3342-3_1"
                             target="_blank"
-                            class="btn btn-xs btn-dark"
+                            class="btn btn-sm btn-outline-info"
                             style="font-size: 0.8rem"
                             >View Springer Link
                             <i
@@ -1046,7 +1335,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h6>Industry Certifications</h6>
-                        <ul class="small mb-0 ps-3">
+                        <ul class="small mb-0 ps-3 font-monospace">
                             <li>
                                 <strong>Microsoft Certified:</strong> Azure
                                 Fundamentals (AZ-900)
@@ -1061,14 +1350,13 @@
             </div>
         </div>
 
-        <!-- BOTTOM DESKTOP TASKBAR INTERACTION PLANE -->
         <footer class="taskbar">
             <div class="taskbar-left">
                 <button
                     class="start-menu-btn"
                     onclick="
                         alert(
-                            'SuhasOS v1.1.0\nKernel: Pure Web Stack\nBuild Status: Synced with Core Resume',
+                            'SuhasOS v1.2.3\nGPU Acceleration Engine: Active\nMCP Kernel: Stable',
                         )
                     "
                 >
@@ -1081,7 +1369,6 @@
             </div>
         </footer>
 
-        <!-- RUNTIME MANAGER SCRIPT ENGINE -->
         <script>
             class WindowManager {
                 constructor() {
@@ -1089,11 +1376,14 @@
                     this.trayContainer =
                         document.getElementById("taskbar-tray");
                     this.highestZ = 100;
+                    this.winPositions = {};
+                    this.preMaxState = {};
                     this.init();
                 }
 
                 init() {
                     this.windows.forEach((win) => {
+                        this.winPositions[win.id] = { x: 0, y: 0 };
                         this.makeDraggable(win);
                         win.addEventListener("mousedown", () =>
                             this.focusWindow(win.id),
@@ -1113,6 +1403,12 @@
                         });
                 }
 
+                setWindowTransform(win, x, y) {
+                    this.winPositions[win.id] = { x, y };
+                    win.style.setProperty("--win-x", `${x}px`);
+                    win.style.setProperty("--win-y", `${y}px`);
+                }
+
                 openWindow(id) {
                     const win = document.getElementById(id);
                     if (!win) return;
@@ -1120,13 +1416,34 @@
                     if (!win.classList.contains("active-window")) {
                         win.classList.add("active-window");
                         this.addToTray(id);
+
+                        const workspace = document.getElementById("desktop");
+                        const wsWidth = workspace.clientWidth;
+                        const wsHeight = workspace.clientHeight;
+                        const winWidth = win.offsetWidth || 820;
+                        const winHeight = win.offsetHeight || 540;
+
+                        let varianceX =
+                            id === "win-about" ? 0 : Math.random() * 60 - 30;
+                        let varianceY =
+                            id === "win-about" ? 0 : Math.random() * 40 - 20;
+
+                        let startX =
+                            Math.max(0, (wsWidth - winWidth) / 2) + varianceX;
+                        let startY =
+                            Math.max(0, (wsHeight - winHeight) / 2) + varianceY;
+
+                        this.setWindowTransform(win, startX, startY);
                     }
                     this.focusWindow(id);
                 }
 
                 closeWindow(id) {
                     const win = document.getElementById(id);
-                    if (win) win.classList.remove("active-window");
+                    if (win) {
+                        win.classList.remove("active-window");
+                        win.classList.remove("fullscreen-active");
+                    }
                     this.removeFromTray(id);
                 }
 
@@ -1135,6 +1452,38 @@
                     if (win) win.classList.remove("active-window");
                     const trayItem = document.getElementById(`tray-${id}`);
                     if (trayItem) trayItem.classList.remove("active");
+                }
+
+                maximizeWindow(id) {
+                    const win = document.getElementById(id);
+                    if (!win) return;
+
+                    win.classList.add("maximized");
+
+                    if (win.classList.contains("fullscreen-active")) {
+                        const state = this.preMaxState[id];
+                        if (state) {
+                            this.setWindowTransform(win, state.x, state.y);
+                            win.style.width = state.width;
+                            win.style.height = state.height;
+                        }
+                        win.classList.remove("fullscreen-active");
+                    } else {
+                        const currentPos = this.winPositions[id];
+                        this.preMaxState[id] = {
+                            x: currentPos.x,
+                            y: currentPos.y,
+                            width: win.style.width || "820px",
+                            height: win.style.height || "540px",
+                        };
+
+                        this.setWindowTransform(win, 0, 0);
+                        win.style.width = "100vw";
+                        win.style.height = "calc(100vh - 45px)";
+                        win.classList.add("fullscreen-active");
+                    }
+                    this.focusWindow(id);
+                    setTimeout(() => win.classList.remove("maximized"), 200);
                 }
 
                 focusWindow(id) {
@@ -1187,14 +1536,14 @@
 
                 makeDraggable(windowEl) {
                     const header = windowEl.querySelector(".window-header");
-                    let pos1 = 0,
-                        pos2 = 0,
-                        pos3 = 0,
-                        pos4 = 0;
+                    const self = this;
 
                     header.onmousedown = dragMouseDown;
 
                     function dragMouseDown(e) {
+                        if (windowEl.classList.contains("fullscreen-active"))
+                            return;
+
                         e = e || window.event;
                         if (
                             e.target.classList.contains("control-btn") ||
@@ -1202,39 +1551,86 @@
                         )
                             return;
                         e.preventDefault();
-                        pos3 = e.clientX;
-                        pos4 = e.clientY;
+
+                        windowEl.classList.add("dragging");
+
+                        let startMouseX = e.clientX;
+                        let startMouseY = e.clientY;
+
+                        let initialWinX = self.winPositions[windowEl.id].x;
+                        let initialWinY = self.winPositions[windowEl.id].y;
+
                         document.onmouseup = closeDragElement;
                         document.onmousemove = elementDrag;
-                    }
 
-                    function elementDrag(e) {
-                        e = e || window.event;
-                        e.preventDefault();
-                        pos1 = pos3 - e.clientX;
-                        pos2 = pos4 - e.clientY;
-                        pos3 = e.clientX;
-                        pos4 = e.clientY;
+                        function elementDrag(ev) {
+                            ev = ev || window.event;
+                            ev.preventDefault();
 
-                        let newTop = windowEl.offsetTop - pos2;
-                        let newLeft = windowEl.offsetLeft - pos1;
+                            let deltaX = ev.clientX - startMouseX;
+                            let deltaY = ev.clientY - startMouseY;
 
-                        if (newTop < 0) newTop = 0;
-                        windowEl.style.top = newTop + "px";
-                        windowEl.style.left = newLeft + "px";
-                    }
+                            let newX = initialWinX + deltaX;
+                            let newY = initialWinY + deltaY;
 
-                    function closeDragElement() {
-                        document.onmouseup = null;
-                        document.onmousemove = null;
+                            if (newY < 0) newY = 0;
+
+                            self.setWindowTransform(windowEl, newX, newY);
+                        }
+
+                        function closeDragElement() {
+                            windowEl.classList.remove("dragging");
+                            document.onmouseup = null;
+                            document.onmousemove = null;
+                        }
                     }
                 }
             }
 
+            const bootLines = [
+                "SYSTEM: INITIALIZING CORE INTRUSION MONITOR...",
+                "MCP: LINKING GRID REPLICATORS...",
+                "IO_PORT: ATTACHING RECURSIVE PACKET FILTERS...",
+                "INFRASTRUCTURE: EXTRACTING TERRAFORM STATES...",
+                "COMPUTE: COMPILING KUBERNETES CONTROL LAYER...",
+                "SECURITY: RUNNING SPRINGER JOURNAL DATABASE CHECK...",
+                "STATUS: ENSEMBLE ARRAYS SECURED [OK]",
+                "IDENTITY: SYNCED WITH USER RESUME CORE MATRIX v1.2.3",
+                "OS: SPAWNING GRAPHICAL INTERACTIVE ENVIRONMENT...",
+            ];
+
+            function runFakeBootLog(callback) {
+                const logBox = document.getElementById("boot-log");
+                let currentIdx = 0;
+
+                function printNextLine() {
+                    if (currentIdx < bootLines.length) {
+                        const line = document.createElement("div");
+                        line.textContent = `> ${bootLines[currentIdx]}`;
+                        logBox.appendChild(line);
+                        logBox.scrollTop = logBox.scrollHeight;
+                        currentIdx++;
+                        setTimeout(printNextLine, 300);
+                    } else {
+                        setTimeout(callback, 2300);
+                    }
+                }
+                printNextLine();
+            }
+
             let osWindowManager;
             document.addEventListener("DOMContentLoaded", () => {
-                osWindowManager = new WindowManager();
-                osWindowManager.openWindow("win-about");
+                runFakeBootLog(() => {
+                    const bootScreen =
+                        document.getElementById("os-boot-screen");
+                    bootScreen.style.transition = "opacity 0.4s ease";
+                    bootScreen.style.opacity = "0";
+                    setTimeout(() => {
+                        bootScreen.remove();
+                        osWindowManager = new WindowManager();
+                        osWindowManager.openWindow("win-about");
+                    }, 400);
+                });
             });
         </script>
     </body>
