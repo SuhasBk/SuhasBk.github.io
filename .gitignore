@@ -18,3 +18,7 @@
 *.env
 *.bin
 *.pyc
+
+.terraform*
+*.tfstate*
+*.tfvars
