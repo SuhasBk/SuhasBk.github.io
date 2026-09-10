@@ -625,7 +625,7 @@
                     </div>
                     <div class="col-md-4 text-center">
                         <img
-                            src="static/profile.png"
+                            src="profile.png"
                             alt="Profile"
                             class="img-fluid rounded-circle border border-info p-1"
                             style="box-shadow: var(--neon-glow)"
@@ -1610,9 +1610,9 @@
                         logBox.appendChild(line);
                         logBox.scrollTop = logBox.scrollHeight;
                         currentIdx++;
-                        setTimeout(printNextLine, 300);
+                        setTimeout(printNextLine, 100);
                     } else {
-                        setTimeout(callback, 2300);
+                        setTimeout(callback, 1000);
                     }
                 }
                 printNextLine();
